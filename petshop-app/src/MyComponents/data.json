@@ -1,8 +1,8 @@
 [
 
     {
-        "id":1,
-        "name":"Akshit",
+        "petId":1,
+        "petName":"Akshit",
         "city":"Moradabad",
         "img":"https://th.bing.com/th/id/OIP.-piPX0zmWQCnVNIFeTbgaAHaEK?pid=ImgDet&rs=1",
         "category" : "Food"

@@ -23,12 +23,17 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import GoogleIcon from '@mui/icons-material/Google';
 import { orange } from '@mui/material/colors';
-import { Navigate, Outlet, useNavigate } from 'react-router-dom';
+import { Navigate, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
-import FavoriteIcon from '@mui/icons-material/Favorite'
 import { useShoppingCart } from "../context/ShoppingCartContext"
+import { Nav } from 'react-bootstrap';
+import AddShoppingCartSharpIcon from '@mui/icons-material/AddShoppingCartSharp';
+import FavoriteIcon from '@mui/icons-material/Favorite'
+import { ShoppingCart } from './ShoppingCart';
+// import { Logout } from './Logout';
+
 
 
 const drawerWidth = 240;
@@ -112,9 +117,13 @@ export default function PrimarySearchAppBar() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [showlogout,setShowLogout] = React.useState(false);
   let navigate = useNavigate();
-
+  
   const { openCart, cartQuantity } = useShoppingCart()
+  // const {hideStoreItem,} = useShoppingCart()
+
+  
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -142,6 +151,9 @@ export default function PrimarySearchAppBar() {
     setOpen(false);
   };
 
+  // const handleSubmit = () => {
+  //   {openCart}
+  // }
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -163,6 +175,12 @@ export default function PrimarySearchAppBar() {
       <MenuItem onClick={handleMenuClose}><HowToRegIcon/>Register</MenuItem>
     </Menu>
   );
+
+  // const showLogoutIcon = (
+  //   <Logout/>
+  // )
+
+  
 
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
@@ -261,6 +279,10 @@ export default function PrimarySearchAppBar() {
           {/* {['Dog', 'Cat', 'Aquarium pets', 'Small Pets' , 'Birds' , 'Login'].map((text, index) => ( */}
             <ListItem  disablePadding>
               <ListItemButton component="a" href="/dog">
+              {/* <ListItemButton>
+              <Nav.Link to="dog" as={NavLink}>
+            Dog
+          </Nav.Link> */}
                 <ListItemText primary={"Dog"} />
               </ListItemButton>
             </ListItem>
@@ -302,7 +324,7 @@ export default function PrimarySearchAppBar() {
         </List>
       </Drawer>
     <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' } ,'padding-right':'20'}}>
             <IconButton
             size="large"
             color="inherit">
@@ -329,21 +351,16 @@ export default function PrimarySearchAppBar() {
             </IconButton>
           </Box>
           {/* ///////////////////////////////////updated code */}
-          {cartQuantity > 0 && (
+        {cartQuantity > 0 && (
           <Button
-            onClick={openCart}
+          // onClick={() => { openCart; hideStoreItem;}}
+          onClick= {openCart}
             style={{ width: "3rem", height: "3rem", position: "relative" }}
-            
             className="rounded-circle"
           >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 576 512"
-              fill="currentColor"
-            >
-              <path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z" />
-            </svg>
-
+            
+            <AddShoppingCartSharpIcon sx={{ color: 'white' }} fontSize="large"></AddShoppingCartSharpIcon> 
+            
             <div
               className="rounded-circle bg-danger d-flex justify-content-center align-items-center"
               style={{
@@ -353,43 +370,12 @@ export default function PrimarySearchAppBar() {
                 position: "absolute",
                 bottom: 0,
                 right: 0,
-                transform: "translate(25%, 25%)",
+                // transform: "translate(25%, 25%)",
               }}
             >
               {cartQuantity}
             </div>
-          </Button>
-        )}
-        {cartQuantity > 0 && (
-          <Button
-            // onClick={openCart}
-        //     style={{ width: "3rem", height: "3rem", position: "relative" }}
-        //     variant="outline-primary"
-        //     className="rounded-circle"
-        //   >
-        //     <svg
-        //       xmlns="http://www.w3.org/2000/svg"
-        //       viewBox="0 0 576 512"
-        //       fill="currentColor"
-        //     >
-        //       <path d="M96 0C107.5 0 117.4 8.19 119.6 19.51L121.1 32H541.8C562.1 32 578.3 52.25 572.6 72.66L518.6 264.7C514.7 278.5 502.1 288 487.8 288H170.7L179.9 336H488C501.3 336 512 346.7 512 360C512 373.3 501.3 384 488 384H159.1C148.5 384 138.6 375.8 136.4 364.5L76.14 48H24C10.75 48 0 37.25 0 24C0 10.75 10.75 0 24 0H96zM128 464C128 437.5 149.5 416 176 416C202.5 416 224 437.5 224 464C224 490.5 202.5 512 176 512C149.5 512 128 490.5 128 464zM512 464C512 490.5 490.5 512 464 512C437.5 512 416 490.5 416 464C416 437.5 437.5 416 464 416C490.5 416 512 437.5 512 464z" />
-        //     </svg>
-
-        //     <div
-        //       className="rounded-circle bg-danger d-flex justify-content-center align-items-center"
-        //       style={{
-        //         color: "white",
-        //         width: "1.5rem",
-        //         height: "1.5rem",
-        //         position: "absolute",
-        //         bottom: 0,
-        //         right: 0,
-        //         transform: "translate(25%, 25%)",
-            //   }}
-            // >
-            //   {cartQuantity}
-            // </div>
-            >
+            
         <FavoriteIcon></FavoriteIcon>
          
           </Button>
@@ -411,6 +397,7 @@ export default function PrimarySearchAppBar() {
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+      {/* {showLogoutIcon} */}
     </Box>
    );
 }

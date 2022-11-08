@@ -10,18 +10,18 @@ type CartItemProps = {
 
 export function CartItem({ id, quantity }: CartItemProps) {
   const { removeFromCart } = useShoppingCart()
-  const item = storeItems.find(i => i.id === id)
+  const item = storeItems.find(i => i.petId === id)
   if (item == null) return null
 
   return (
     <Stack direction="horizontal" gap={2} className="d-flex align-items-center">
       <img
-        src={item.imgUrl}
+        src={item.petImage}
         style={{ width: "125px", height: "75px", objectFit: "cover" }}
       />
       <div className="me-auto">
         <div>
-          {item.name}{" "}
+          {item.petName}{" "}
           {quantity > 1 && (
             <span className="text-muted" style={{ fontSize: ".65rem" }}>
               x{quantity}
@@ -29,14 +29,14 @@ export function CartItem({ id, quantity }: CartItemProps) {
           )}
         </div>
         <div className="text-muted" style={{ fontSize: ".75rem" }}>
-          {formatCurrency(item.price)}
+          {formatCurrency(item.petPrice)}
         </div>
       </div>
-      <div> {formatCurrency(item.price * quantity)}</div>
+      <div> {formatCurrency(item.petPrice * quantity)}</div>
       <Button
         variant="outline-danger"
         size="sm"
-        onClick={() => removeFromCart(item.id)}
+        onClick={() => removeFromCart(item.petId)}
       >
         &times;
       </Button>

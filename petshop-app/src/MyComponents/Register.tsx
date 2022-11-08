@@ -16,12 +16,12 @@ const theme = createTheme();
 
 export default function Register() {
 
-//   const state = {
-//    "firstName": "" ,
-//   "lastName": "",
-//   "email": "",
-//   "password": "",
-// }
+  const state = {
+   "firstName": "" ,
+  "lastName": "",
+  "email": "",
+  "password": "",
+}
 
 
 //const [firstName,setFirstname] = useState("");

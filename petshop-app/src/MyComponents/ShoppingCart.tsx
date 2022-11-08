@@ -11,7 +11,7 @@ type ShoppingCartProps = {
 export function ShoppingCart({ isOpen }: ShoppingCartProps) {
   const { closeCart, cartItems } = useShoppingCart()
   return (
-    <Offcanvas show={isOpen} onHide={closeCart} placement="end">
+    <Offcanvas show={isOpen} onHide={closeCart} placement="start">
       <Offcanvas.Header closeButton>
         <Offcanvas.Title>Cart</Offcanvas.Title>
       </Offcanvas.Header>
@@ -25,8 +25,8 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
             Total{" "}
             {formatCurrency(
               cartItems.reduce((total, cartItem) => {
-                const item = storeItems.find(i => i.id === cartItem.id)
-                return total + (item?.price || 0) * cartItem.quantity
+                const item = storeItems.find(i => i.petId === cartItem.id)
+                return total + (item?.petPrice || 0) * cartItem.quantity
               }, 0)
             )}
           </div>
