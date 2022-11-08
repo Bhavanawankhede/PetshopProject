@@ -2,21 +2,25 @@
 import './App.css';
 import { ShoppingCartProvider } from './context/ShoppingCartContext';
 import MainRoutes from './MainRoutes';
+import { CartItem } from './MyComponents/CartItem';
 import Favourites from './MyComponents/Favourites';
 import { Footer } from './MyComponents/Footer';
 import Navbar from './MyComponents/Navbar';
+import { Store } from './MyComponents/Store';
 import { StoreItem } from './MyComponents/StoreItem';
 
 function App() {
 
   return (
     <div>
-      
-      <Navbar></Navbar> 
+    
+    <Navbar></Navbar> 
     <MainRoutes></MainRoutes>
-      {/* <Favourites></Favourites> */}
+      {/* <Favourites></Favourites>   */}
       <Footer></Footer>  
       
+      
+  
       
          
     </div>

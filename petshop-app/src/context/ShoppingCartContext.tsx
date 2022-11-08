@@ -9,7 +9,7 @@ type ShoppingCartProviderProps = {
 }
 
 type CartItem = {
-  id: number
+  petId: number
   quantity: number
 }
 type WishItem = {
@@ -68,20 +68,20 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
   // const hideStoreItem = () => setisStoreItemvisible(false);
   
   function getItemQuantity(id: number) {
-    return cartItems.find(item => item.id === id)?.quantity || 0
+    return cartItems.find(item => item.petId === id)?.quantity || 0
   }
 
   function getItemLike(id: number) {
     return wishItems.find((item) => item.id === id)?.like || 0;
   }
 
-  function increaseCartQuantity(id: number) {
+  function increaseCartQuantity(petId: number) {
     setCartItems(currItems => {
-      if (currItems.find(item => item.id === id) == null) {
-        return [...currItems, { id, quantity: 1 }]
+      if (currItems.find(item => item.petId === petId) == null) {
+        return [...currItems, { petId, quantity: 1 }]
       } else {
         return currItems.map(item => {
-          if (item.id === id) {
+          if (item.petId === petId) {
             return { ...item, quantity: item.quantity + 1 }
           } else {
             return item
@@ -113,11 +113,11 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
 
   function decreaseCartQuantity(id: number) {
     setCartItems(currItems => {
-      if (currItems.find(item => item.id === id)?.quantity === 1) {
-        return currItems.filter(item => item.id !== id)
+      if (currItems.find(item => item.petId === id)?.quantity === 1) {
+        return currItems.filter(item => item.petId !== id)
       } else {
         return currItems.map(item => {
-          if (item.id === id) {
+          if (item.petId === id) {
             return { ...item, quantity: item.quantity - 1 }
           } else {
             return item
@@ -128,7 +128,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
   }
   function removeFromCart(id: number) {
     setCartItems(currItems => {
-      return currItems.filter(item => item.id !== id)
+      return currItems.filter(item => item.petId !== id)
     })
   }
 
