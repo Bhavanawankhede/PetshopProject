@@ -27,7 +27,6 @@ function SignIn() {
   const [userPassword, setUserPassword] = useState('')
   const [emailErr, setEmailErr] = useState(false);
   const [passwordErr, setPasswordErr] = useState(false)
-  const USER_BASE_URL = "https://localhost:8080/user"
   const data = {
     userEmail: userEmail,
     userPassword: userPassword

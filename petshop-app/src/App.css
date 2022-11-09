@@ -48,5 +48,34 @@ img{
   width: 140px;
 }
 
+.buttonDiv{
+  display: flex;
+}
+
+.w-100{
+  padding-left: 20px;
+  padding-right: 20px;
+
+}
+
+.main-component{
+  padding-left: 500px;
+}
+
+.shoppingcartbtn{
+  background-color: #8ceaf5;
+  border: 1px solid black;
+  color: black;
+  padding: 10px;
+}
+
+.orderTable{
+  display: flex;
+   justify-content: center;
+   align-items: center;
+   
+}
+
+
 
 

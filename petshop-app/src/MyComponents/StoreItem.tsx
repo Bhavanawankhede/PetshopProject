@@ -42,9 +42,9 @@ export function StoreItem({ petId, petName, petPrice, petImage }: StoreItemProps
 
   return (
 
-    <Card className="h-100" >
+    <Card className="main-component" >
      
-      <br/><br/><br/><br/>
+      <br/><br/>
       <Card.Img
         variant="top"
         src={petImage}
@@ -54,9 +54,10 @@ export function StoreItem({ petId, petName, petPrice, petImage }: StoreItemProps
       <Card.Body className="d-flex flex-column">
         
         <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
-          <span className="fs-2">{petName}</span>
-          <span className="ms-2 text-muted">{formatCurrency(petPrice)}</span>
+          <div className="fs-2">PetName:  {petName}</div>
+          <div className="ms-2 text-muted">Price:  {formatCurrency(petPrice)}</div>
         </Card.Title>
+        <div className="buttonDiv">
         <div className="mt-auto">
           {quantity === 0 ? (
             <Button className="w-100" onClick={() => increaseCartQuantity(petId)} style={{"backgroundColor":"#8ceaf5"}} variant="success">
@@ -108,6 +109,7 @@ export function StoreItem({ petId, petName, petPrice, petImage }: StoreItemProps
             </div>
           )}
 
+        </div>
         </div>
       </Card.Body>
       

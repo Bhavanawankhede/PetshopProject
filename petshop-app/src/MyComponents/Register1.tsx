@@ -1,178 +1,162 @@
-import { Component } from "react";
-import { Formik, Field, Form, ErrorMessage } from "formik";
-import * as Yup from "yup";
+import * as React from 'react';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
+import { Avatar } from '@mui/material';
+import { Outlet } from 'react-router-dom';
+import { useState } from 'react';
 
-import AuthService from "../Services/auth.service";
+const theme = createTheme();
 
-type Props = {};
+export default function Register() {
 
-type State = {
-  username: string,
-  email: string,
-  password: string,
-  successful: boolean,
-  message: string
-};
+//   const data = {
+//    "userEmail": "" ,
+//   "lastName": "",
+//   "email": "",
+//   "password": "",
+// }
 
-export default class Register extends Component<Props, State> {
-  constructor(props: Props) {
-    super(props);
-    this.handleRegister = this.handleRegister.bind(this);
+const [userFirstName, setUserFirstName] = useState('');
+const [userLastName, setUserLastName] = useState('');
+const [userEmail, setUserEmail] = useState('');
+const [userPassword, setUserPassword] = useState('')
+const [userConfirmPassword, setUserConfirmPassword] = useState('');
 
-    this.state = {
-      username: "",
-      email: "",
-      password: "",
-      successful: false,
-      message: ""
-    };
-  }
+const data = {
+  userFirstName: userFirstName,
+  userLastName: userLastName,
+  userEmail: userEmail,
+  userPassword: userPassword,
+  userConfirmPassword: userConfirmPassword
 
-  validationSchema() {
-    return Yup.object().shape({
-      username: Yup.string()
-        .test(
-          "len",
-          "The username must be between 3 and 20 characters.",
-          (val: any) =>
-            val &&
-            val.toString().length >= 3 &&
-            val.toString().length <= 20
-        )
-        .required("This field is required!"),
-      email: Yup.string()
-        .email("This is not a valid email.")
-        .required("This field is required!"),
-      password: Yup.string()
-        .test(
-          "len",
-          "The password must be between 6 and 40 characters.",
-          (val: any) =>
-            val &&
-            val.toString().length >= 6 &&
-            val.toString().length <= 40
-        )
-        .required("This field is required!"),
+}
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    console.log(data);
+    if(data.get('firstName')!="" && data.get('lastName')!="" && data.get('email')!="" && data.get('password')!=""){
+      sessionStorage.setItem("firstName",event.currentTarget.firstName);
+      sessionStorage.setItem("lastName",event.currentTarget.lastName);
+      sessionStorage.setItem("username",event.currentTarget.email);
+      sessionStorage.setItem("password",event.currentTarget.password);
+      window.location.replace("http://localhost:3000/home");
+      console.log({
+      email: data.get('email'),
+      password: data.get('password'),
     });
+  }else{
+    alert("Fields cannot be empty")
   }
+  };
 
-  handleRegister(formValue: { username: string; email: string; password: string }) {
-    const { username, email, password } = formValue;
-
-    this.setState({
-      message: "",
-      successful: false
-    });
-
-    AuthService.register(
-      username,
-      email,
-      password
-    ).then(
-      response => {
-        this.setState({
-          message: response.data.message,
-          successful: true
-        });
-      },
-      error => {
-        const resMessage =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
-
-        this.setState({
-          successful: false,
-          message: resMessage
-        });
-      }
-    );
-  }
-
-  render() {
-    const { successful, message } = this.state;
-
-    const initialValues = {
-      username: "",
-      email: "",
-      password: "",
-    };
-
-    return (
-      <div className="col-md-12">
-        <div className="card card-container">
-          <img
-            src="//ssl.gstatic.com/accounts/ui/avatar_2x.png"
-            alt="profile-img"
-            className="profile-img-card"
-          />
-
-          <Formik
-            initialValues={initialValues}
-            validationSchema={this.validationSchema}
-            onSubmit={this.handleRegister}
-          >
-            <Form>
-              {!successful && (
-                <div>
-                  <div className="form-group">
-                    <label htmlFor="username"> Username </label>
-                    <Field name="username" type="text" className="form-control" />
-                    <ErrorMessage
-                      name="username"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="email"> Email </label>
-                    <Field name="email" type="email" className="form-control" />
-                    <ErrorMessage
-                      name="email"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <label htmlFor="password"> Password </label>
-                    <Field
-                      name="password"
-                      type="password"
-                      className="form-control"
-                    />
-                    <ErrorMessage
-                      name="password"
-                      component="div"
-                      className="alert alert-danger"
-                    />
-                  </div>
-
-                  <div className="form-group">
-                    <button type="submit" className="btn btn-primary btn-block">Sign Up</button>
-                  </div>
-                </div>
-              )}
-
-              {message && (
-                <div className="form-group">
-                  <div
-                    className={
-                      successful ? "alert alert-success" : "alert alert-danger"
-                    }
-                    role="alert"
-                  >
-                    {message}
-                  </div>
-                </div>
-              )}
-            </Form>
-          </Formik>
-        </div>
-      </div>
-    );
-  }
+  return (
+    <Box padding={10}>
+      <Outlet/>
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar  sx={{ bgcolor: '#9575cd' }} variant="rounded">
+          <HowToRegIcon/>
+         </Avatar>
+         
+          <Typography component="h1" variant="h5">
+            Register 
+          </Typography>
+          <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+            <Grid container spacing={2}>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  autoComplete="given-name"
+                  name="firstName"
+                  required
+                  fullWidth
+                  id="firstName"
+                  label="First Name"
+                  autoFocus
+                />
+              </Grid>
+              <Grid item xs={12} sm={6}>
+                <TextField
+                  required
+                  fullWidth
+                  id="lastName"
+                  label="Last Name"
+                  name="lastName"
+                  autoComplete="family-name"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="email"
+                  label="Email Address"
+                  name="email"
+                  autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="password"
+                  label="Password"
+                  type="password"
+                  id="password"
+                  autoComplete="new-password"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="cpassword"
+                  label="ConfirmPassword"
+                  type="password"
+                  id="cpassword"
+                  autoComplete="Confirm-password"
+                />
+              </Grid>
+              
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Register
+            </Button>
+            <Grid container justifyContent="flex-end">
+              <Grid item>
+                <Link href="/login"
+                 variant="body2"
+                 sx={{ my: 2, color: "red", display: "block" }}>
+                  Already have an account? Sign in
+                </Link>
+              </Grid>
+            </Grid>
+          </Box>
+        </Box>
+       
+      </Container>
+    </ThemeProvider>
+    </Box>
+  );
 }

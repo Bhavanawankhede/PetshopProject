@@ -5,6 +5,8 @@ import { Dog } from './MyComponents/Dog'
 import Home from './MyComponents/Home'
 import Login from './MyComponents/Login'
 import Navbar from './MyComponents/Navbar'
+import Order from './MyComponents/Order'
+import OrderNext from './MyComponents/OrderNext'
 import Register from './MyComponents/Register'
 import { ShoppingCart } from './MyComponents/ShoppingCart'
 import { StoreItem } from './MyComponents/StoreItem'
@@ -27,6 +29,9 @@ export default function MainRoutes() {
                 <Route path='/login' element={<Login/>}></Route>
                 <Route path='/register' element={<Register/>}></Route>
                 <Route path='/cart' element={<ShoppingCart isOpen={true}/>}></Route>
+                <Route path='/order' element={<Order/>}></Route>
+                <Route path='/orderNext' element={<OrderNext/>}></Route>
+                
             </Route>
             
             <Route path='*' element={<Test />}/>
