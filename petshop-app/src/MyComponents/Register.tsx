@@ -11,37 +11,53 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { Avatar } from '@mui/material';
 import { Outlet } from 'react-router-dom';
+import { useState } from 'react';
+import axios from 'axios';
 
 const theme = createTheme();
 
 export default function Register() {
 
-  const state = {
-   "firstName": "" ,
-  "lastName": "",
-  "email": "",
-  "password": "",
+//   const data = {
+//    "userEmail": "" ,
+//   "lastName": "",
+//   "email": "",
+//   "password": "",
+// }
+
+const [userFirstName, setUserFirstName] = useState('');
+const [userLastName, setUserLastName] = useState('');
+const [userEmail, setUserEmail] = useState('');
+const [userPassword, setUserPassword] = useState('')
+const [userConfirmPassword, setUserConfirmPassword] = useState('');
+const UserRole = "CUSTOMER"
+
+const data = {
+  userFirstName: userFirstName,
+  userLastName: userLastName,
+  userEmail: userEmail,
+  userPassword: userPassword,
+  userConfirmPassword: userConfirmPassword,
+  UserRole: UserRole
+
 }
 
-
-//const [firstName,setFirstname] = useState("");
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    if(data.get('firstName')!="" && data.get('lastName')!="" && data.get('email')!="" && data.get('password')!=""){
-      sessionStorage.setItem("firstName",event.currentTarget.firstName);
-      sessionStorage.setItem("lastName",event.currentTarget.lastName);
-      sessionStorage.setItem("username",event.currentTarget.email);
-      sessionStorage.setItem("password",event.currentTarget.password);
-      window.location.replace("http://localhost:3000/home");
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+    console.log(data);
+    axios.post("http://localhost:8080/user/addUser", data).then((res: { data: any }) => {
+    // if(res.data.userFirstName!="" && res.data.get('lastName')!="" && res.data.get('email')!="" && res.data.get('password')!=""){
+    if(userFirstName!="" && userLastName!="" && userEmail!="" && userPassword!=""){
+    alert("Registered Successfully")
+      window.location.replace("http://localhost:3000/login");
       console.log({
-      email: data.get('email'),
-      password: data.get('password'),
+      email: res.data.get('email'),
+      password: res.data.get('password'),
     });
   }else{
     alert("Fields cannot be empty")
   }
+})
   };
 
   return (
@@ -70,11 +86,13 @@ export default function Register() {
               <Grid item xs={12} sm={6}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="userFirstName"
                   required
                   fullWidth
-                  id="firstName"
+                  id="userFirstName"
                   label="First Name"
+                  value={userFirstName}
+                onChange={(e) => setUserFirstName(e.target.value)}
                   autoFocus
                 />
               </Grid>
@@ -82,9 +100,11 @@ export default function Register() {
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
+                  id="userLastName"
                   label="Last Name"
-                  name="lastName"
+                  name="userLastName"
+                  value={userLastName}
+                onChange={(e) => setUserLastName(e.target.value)}
                   autoComplete="family-name"
                 />
               </Grid>
@@ -92,9 +112,11 @@ export default function Register() {
                 <TextField
                   required
                   fullWidth
-                  id="email"
+                  id="userEmail"
                   label="Email Address"
-                  name="email"
+                  name="userEmail"
+                  value={userEmail}
+                onChange={(e) => setUserEmail(e.target.value)}
                   autoComplete="email"
                 />
               </Grid>
@@ -102,10 +124,12 @@ export default function Register() {
                 <TextField
                   required
                   fullWidth
-                  name="password"
+                  name="userPassword"
                   label="Password"
                   type="password"
-                  id="password"
+                  id="userPassword"
+                  value={userPassword}
+                onChange={(e) => setUserPassword(e.target.value)}
                   autoComplete="new-password"
                 />
               </Grid>
@@ -113,10 +137,12 @@ export default function Register() {
                 <TextField
                   required
                   fullWidth
-                  name="cpassword"
+                  name="userConfirmPassword"
                   label="ConfirmPassword"
                   type="password"
-                  id="cpassword"
+                  id="userConfirmPassword"
+                  value={userConfirmPassword}
+                onChange={(e) => setUserConfirmPassword(e.target.value)}
                   autoComplete="Confirm-password"
                 />
               </Grid>

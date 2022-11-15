@@ -1,4 +1,4 @@
-import { Button, Card } from "react-bootstrap"
+
 import { useShoppingCart } from "../context/ShoppingCartContext"
 import { formatCurrency } from "../utilities/formatCurrency"
 import AddShoppingCartSharpIcon from '@mui/icons-material/AddShoppingCartSharp';
@@ -6,6 +6,10 @@ import FavoriteIcon from '@mui/icons-material/Favorite'
 import '../App.css';
 import { useState } from "react";
 import { display } from "@mui/system";
+import { Box, Button, Card, CardContent, CardMedia, Container, Typography } from "@mui/material";
+import AddIcon from '@mui/icons-material/Add';
+import RemoveIcon from '@mui/icons-material/Remove';
+
 
 
 
@@ -27,7 +31,7 @@ export function StoreItem({ petId, petName, petPrice, petImage }: StoreItemProps
 
   const {
     getItemQuantity,
-    getItemLike,
+    // getItemLike,
     increaseCartQuantity,
     wishlistIncrease,
     decreaseCartQuantity,
@@ -38,30 +42,40 @@ export function StoreItem({ petId, petName, petPrice, petImage }: StoreItemProps
 
   const quantity = getItemQuantity(petId);
 
-  const like = getItemLike(petId)
+  const Style: any ={
+      width:300
+  }
+
+  // const like = getItemLike(petId)
 
   return (
 
-    <Card className="main-component" >
+    <Box className="mainContainer">
      
-      <br/><br/>
-      <Card.Img
-        variant="top"
-        src={petImage}
-        height="200px"
-        style={{ objectFit: "cover" }}
+     
+      {/* <br></br><br/><br/>
+      <br></br> */}
+    <Card >
+      <CardMedia
+        component="img"
+        image={petImage}
+        style={Style}
+        // variant="top"
+        // src={petImage}
+        // height="200px"
+        // style={{ objectFit: "cover" }}
       />
-      <Card.Body className="d-flex flex-column">
+      <CardContent >
         
-        <Card.Title className="d-flex justify-content-between align-items-baseline mb-4">
-          <div className="fs-2">PetName:  {petName}</div>
-          <div className="ms-2 text-muted">Price:  {formatCurrency(petPrice)}</div>
-        </Card.Title>
+        <Typography variant="body2" color="text.secondary">
+          <div className="price">PetName:  {petName}</div>
+          <div className="price">Price:  {formatCurrency(petPrice)}</div>
+        </Typography>
         <div className="buttonDiv">
-        <div className="mt-auto">
+        <div className="row">
           {quantity === 0 ? (
-            <Button className="w-100" onClick={() => increaseCartQuantity(petId)} style={{"backgroundColor":"#8ceaf5"}} variant="success">
-              <AddShoppingCartSharpIcon></AddShoppingCartSharpIcon>
+            <Button className="row" onClick={() => increaseCartQuantity(petId)} variant="contained" >
+              <AddShoppingCartSharpIcon style={{"color":"white"}}></AddShoppingCartSharpIcon>
             </Button>
 
           ) : (
@@ -70,29 +84,31 @@ export function StoreItem({ petId, petName, petPrice, petImage }: StoreItemProps
               style={{ gap: ".5rem" }}
             >
               <div
-                className="d-flex align-items-center justify-content-center"
+                className="btn-add-delete"
                 style={{ gap: ".5rem" }}
               >
-                <Button onClick={() => decreaseCartQuantity(petId)}>-</Button>
+                <Button onClick={() => decreaseCartQuantity(petId)} variant="text" size="large"><RemoveIcon/></Button>
                 <div>
                   <span className="fs-3">{quantity}</span> in cart
                 </div>
-                <Button onClick={() => increaseCartQuantity(petId)}>+</Button>
-              </div>
+                <Button onClick={() => increaseCartQuantity(petId)} variant="text" size="large"><AddIcon/></Button>
+             
+              <br/>
               <Button
                 onClick={() => removeFromCart(petId)}
-                variant="danger"
-                size="sm"
-                color="red"
+                variant="contained"
+                size="medium"
+                color="error"
               >
-                Remove
+                Remove 
               </Button>
+              </div>
             </div>
           )}
         </div>
-        <div className="mt-auto">
+        {/* <div className="row">
           {like === 0 ? (
-            <Button className="w-100" onClick={() => wishlistIncrease(petId)}  style={{"backgroundColor":"#8ceaf5"}}>
+            <Button className="row" onClick={() => wishlistIncrease(petId)}  style={{"backgroundColor":"#8ceaf5"}}>
 
               <FavoriteIcon></FavoriteIcon>
             </Button>
@@ -101,19 +117,20 @@ export function StoreItem({ petId, petName, petPrice, petImage }: StoreItemProps
               className="d-flex align-items-center flex-column"
               style={{ gap: ".5rem" }}
             >
-             {like}
-              <Button className="w-100" onClick={() => wishlistIncrease(petId)} >
+            
+              <Button className="w-100"  >
 
                 <FavoriteIcon></FavoriteIcon>
               </Button>
             </div>
           )}
 
+        </div> */}
         </div>
-        </div>
-      </Card.Body>
+      </CardContent>
       
     </Card>
+    </Box>
   
   )
 }

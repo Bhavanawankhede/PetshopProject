@@ -1,24 +1,26 @@
 import React, { useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { ShoppingCartProvider } from './context/ShoppingCartContext'
+import Admin from './MyComponents/admin'
 import { Dog } from './MyComponents/Dog'
 import Home from './MyComponents/Home'
 import Login from './MyComponents/Login'
+import Logout from './MyComponents/Logout'
 import Navbar from './MyComponents/Navbar'
 import Order from './MyComponents/Order'
 import OrderNext from './MyComponents/OrderNext'
 import Register from './MyComponents/Register'
+import Register1 from './MyComponents/Register1'
 import { ShoppingCart } from './MyComponents/ShoppingCart'
 import { StoreItem } from './MyComponents/StoreItem'
+import { Store } from './MyComponents/Store'
 
 export default function MainRoutes() {
 
-  const[isLoggedin, setLogin] = useState(false)
   const Test = () => (
     <h1>Page Not Found 404 Error</h1>
   )
   return (
-    <div>
       <ShoppingCartProvider>
         <Routes>
             <Route path='/' element={<Navbar/>}>
@@ -27,16 +29,18 @@ export default function MainRoutes() {
                 <Route path='/dog' element={
         <Dog/>}></Route>
                 <Route path='/login' element={<Login/>}></Route>
-                <Route path='/register' element={<Register/>}></Route>
-                <Route path='/cart' element={<ShoppingCart isOpen={true}/>}></Route>
-                <Route path='/order' element={<Order/>}></Route>
+                <Route path='/logout' element={<Logout/>}></Route>
+                <Route path='/register' element={<Register1/>}></Route>
+                <Route path='/shoppingCart' element={<ShoppingCart isOpen={true}/>}></Route>
+                {/* <Route path='/cart' element={<Store/>}></Route> */}
+                <Route path='/order' element={<Order isOpen={true}/>}></Route>
                 <Route path='/orderNext' element={<OrderNext/>}></Route>
+                <Route path='/admin' element={<Admin/>}></Route>
                 
             </Route>
             
             <Route path='*' element={<Test />}/>
         </Routes>
         </ShoppingCartProvider>
-    </div>
   )
 }

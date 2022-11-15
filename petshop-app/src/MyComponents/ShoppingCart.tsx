@@ -1,11 +1,17 @@
-import { Button, Card, Offcanvas, Stack } from "react-bootstrap"
+import {  Offcanvas, Stack } from "react-bootstrap"
 import { useShoppingCart } from "../context/ShoppingCartContext"
 import { formatCurrency } from "../utilities/formatCurrency"
 import { CartItem } from "./CartItem"
 import storeItems from "../data/items.json"
 import { useEffect, useState } from "react"
 import axios from "axios"
+import Card from '@mui/material/Card';
 import { useNavigate } from "react-router-dom"
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 
 type ShoppingCartProps = {
   isOpen: boolean
@@ -29,14 +35,12 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
   }
 
   return (
-    <Card>
-    <Offcanvas show={isOpen} onHide={closeCart} >
-      <Offcanvas.Header closeButton> 
-        <Offcanvas.Title>Cart</Offcanvas.Title>
-       
-      </Offcanvas.Header>
-      <Offcanvas.Body>
-      Close button
+    <Card className="mainContainer">
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+        Cart
+        </Typography>
+
         <Stack >
           {cartItems.map(item => (
             <CartItem {...item} />
@@ -50,12 +54,15 @@ export function ShoppingCart({ isOpen }: ShoppingCartProps) {
                 return total + (item?.petPrice || 0) * cartItem.quantity
               }, 0)
             )}
-                <Button className="shoppingcartbtn" href="/order">Proceed to checkout</Button>
+                
 
           </div>
+          <div>
+          <Button className="shoppingcartbtn" href="/order" variant="contained">Proceed to checkout</Button>
+          </div>
         </Stack>
-      </Offcanvas.Body>
-    </Offcanvas>
+
+      </CardContent>
     </Card>
   )
 }

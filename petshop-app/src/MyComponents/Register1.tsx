@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect } from "react";
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
@@ -11,50 +11,86 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { Avatar } from '@mui/material';
 import { Outlet } from 'react-router-dom';
-import { useState } from 'react';
+import {  useState } from 'react';
+import axios from 'axios';
+import '../App.css';
 
 const theme = createTheme();
 
-export default function Register() {
+export default function Register(){
 
-//   const data = {
-//    "userEmail": "" ,
-//   "lastName": "",
-//   "email": "",
-//   "password": "",
-// }
+  const userRole = "CUSTOMER"
 
-const [userFirstName, setUserFirstName] = useState('');
-const [userLastName, setUserLastName] = useState('');
-const [userEmail, setUserEmail] = useState('');
-const [userPassword, setUserPassword] = useState('')
-const [userConfirmPassword, setUserConfirmPassword] = useState('');
+  const initialValues = {
+    userFirstName: '',
+    userLastName: '',
+    userEmail: '',
+    userPassword: '',
+    userConfirmPassword: '',
+    userRole: userRole
+  }
 
-const data = {
-  userFirstName: userFirstName,
-  userLastName: userLastName,
-  userEmail: userEmail,
-  userPassword: userPassword,
-  userConfirmPassword: userConfirmPassword
+const [formValues, setFormValues] = useState(initialValues);
+const [formErrors, setFormErrors] = useState({ userFirstName: '',
+userLastName: '',
+userEmail: '',
+userPassword: '',
+userConfirmPassword: '',});
+const [isSubmit, setIsSubmit] = useState(false);
+const validEmail = new RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$');
 
-}
+useEffect(() => {
+  console.log(formErrors);
+  if (Object.keys(formErrors).length === 0 && isSubmit) {
+    console.log(formValues);
+  }
+}, [formErrors]);
+const validate = (values: any) => {
+  const errors: any = {};
+  if (!values.userFirstName) {
+    errors.userFirstName = "First Name is required!";
+  }
+  if (!values.userLastName) {
+    errors.userLastName = "Last Name is required!";
+  }
+  if (!values.userEmail) {
+    errors.userEmail = "Email is required!";
+  } else if (!validEmail.test(values.userEmail)) {
+    errors.userEmail = "This is not a valid email format!";
+  }
+  if (!values.userPassword) {
+    errors.userPassword = "Password is required";
+  } else if (values.userPassword.length < 4) {
+    errors.userPassword = "Password must be more than 4 characters";
+  } else if (values.userPassword.length > 10) {
+    errors.password = "Password cannot exceed more than 10 characters";
+  }
+  if(!values.userConfirmPassword){
+    errors.userConfirmPassword = "Confirm Password is required";
+  } else if(values.userPassword != values.userConfirmPassword){
+    errors.userConfirmPassword = "Password and Confirm Password does not match.";
+  }
+  return errors;
+};
+
+
+const handleChange = (e: any) => {
+  const { name, value } = e.target;
+  setFormValues({ ...formValues, [name]: value });
+};
+
+
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    console.log(data);
-    if(data.get('firstName')!="" && data.get('lastName')!="" && data.get('email')!="" && data.get('password')!=""){
-      sessionStorage.setItem("firstName",event.currentTarget.firstName);
-      sessionStorage.setItem("lastName",event.currentTarget.lastName);
-      sessionStorage.setItem("username",event.currentTarget.email);
-      sessionStorage.setItem("password",event.currentTarget.password);
-      window.location.replace("http://localhost:3000/home");
-      console.log({
-      email: data.get('email'),
-      password: data.get('password'),
-    });
-  }else{
-    alert("Fields cannot be empty")
-  }
+    console.log(formValues);
+    setFormErrors(validate(formValues));
+    setIsSubmit(true);
+    axios.post("http://localhost:8080/user/addUser", formValues).then((res: { data: any }) => {
+    console.log("Response"+ res.data);
+    alert("Registered Successfully")
+      window.location.replace("http://localhost:3000/login");
+  });
   };
 
   return (
@@ -71,6 +107,11 @@ const data = {
             alignItems: 'center',
           }}
         >
+          {Object.keys(formErrors).length === 0 && isSubmit ? (
+        <div className="ui message success">Signed in successfully</div>
+      ) : (
+        <pre></pre>
+      )}
           <Avatar  sx={{ bgcolor: '#9575cd' }} variant="rounded">
           <HowToRegIcon/>
          </Avatar>
@@ -82,56 +123,70 @@ const data = {
             <Grid container spacing={2}>
               <Grid item xs={12} sm={6}>
                 <TextField
-                  autoComplete="given-name"
-                  name="firstName"
                   required
                   fullWidth
-                  id="firstName"
+                  id="userFirstName"
                   label="First Name"
-                  autoFocus
+                  name="userFirstName"
+                  value={formValues.userFirstName}
+                  onChange={handleChange}
+                  autoComplete="family-name"
                 />
+                <p className="ErrorClass">{formErrors.userFirstName}</p>
               </Grid>
               <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
-                  id="lastName"
+                  id="userLastName"
                   label="Last Name"
-                  name="lastName"
+                  name="userLastName"
+                  value={formValues.userLastName}
+                  onChange={handleChange}
                   autoComplete="family-name"
                 />
+                <p className="ErrorClass">{formErrors.userLastName}</p>
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  id="email"
+                  id="userEmail"
                   label="Email Address"
-                  name="email"
+                  name="userEmail"
+                  value={formValues.userEmail}
+                  onChange={handleChange}
                   autoComplete="email"
                 />
+                <p className="ErrorClass">{formErrors.userEmail}</p>
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="password"
+                  name="userPassword"
                   label="Password"
                   type="password"
-                  id="password"
+                  id="userPassword"
+                  value={formValues.userPassword}
+                  onChange={handleChange}
                   autoComplete="new-password"
                 />
+                <p className="ErrorClass">{formErrors.userPassword}</p>
               </Grid>
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
-                  name="cpassword"
+                  name="userConfirmPassword"
                   label="ConfirmPassword"
                   type="password"
-                  id="cpassword"
+                  id="userConfirmPassword"
+                  value={formValues.userConfirmPassword}
+                  onChange={handleChange}
                   autoComplete="Confirm-password"
                 />
+                <p className="ErrorClass">{formErrors.userConfirmPassword}</p>
               </Grid>
               
             </Grid>

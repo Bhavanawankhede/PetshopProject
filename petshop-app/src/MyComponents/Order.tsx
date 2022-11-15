@@ -7,8 +7,18 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { FaAlignJustify, FaCentercode } from 'react-icons/fa';
-import { Button, TextareaAutosize, Typography } from '@mui/material';
+// import { FaAlignJustify, FaCentercode } from 'react-icons/fa';
+import { Button, CardContent, TextareaAutosize, Typography } from '@mui/material';
+import { useEffect, useState } from "react"
+import {  Card, Offcanvas, Stack } from "react-bootstrap"
+import { useShoppingCart } from "../context/ShoppingCartContext"
+import { formatCurrency } from "../utilities/formatCurrency"
+import { CartItem } from "./CartItem"
+import storeItems from "../data/items.json"
+
+import axios from "axios"
+import { useNavigate } from "react-router-dom"
+import '../App.css';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -31,63 +41,133 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 }));
 
 function createData(
-  productName: string,
-  price: number,
+  petName: string,
+  petPrice: number,
   quantity: number,
-  
+
 ) {
-  return { productName, price, quantity };
+  return { petName, petPrice, quantity };
+}
+type CartItemProps = {
+  petId: number
+  quantity: number
+}
+type ShoppingCartProps = {
+  isOpen: boolean
 }
 
-const rows = [
-  createData("dog 1",2000,3),
-  createData("dog 2",3000,3),
-  createData("Cat",2000,2),
-  createData("Cat 1",3000,8),
-  createData("Fish 1",4000,100),
-];
 
-export default function CustomizedTables() {
+export default function CustomizedTables({ isOpen }: ShoppingCartProps)  {
+  
+  const { closeCart, cartItems } = useShoppingCart()
+  const [pets, setPets] = useState<any[]>([]);
+  const navigate = useNavigate();
+
+  const checkout:any= () =>{
+    navigate("/order")
+  }
+
+
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/pet/getAllPets').then((response) => {
+      console.log(response)
+      setPets(response.data);
+      console.log(pets);
+    });
+  }, []);
+  // const item = pets.find(i => i.petId === petId)
+  // if (item == null) return null
+
+
   return (
     <div>
-        <br/><br/><br/>
-    <TableContainer >
-      <Table className="orderTable" sx={{ minWidth: 700 , maxWidth: 1100 }} aria-label="customized table">
-        <TableHead>
-          <TableRow>
-            <StyledTableCell>Product Name</StyledTableCell>
-            <StyledTableCell align="right">Price</StyledTableCell>
-            <StyledTableCell align="right">Quantity</StyledTableCell>
-            </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <StyledTableRow key={row.productName}>
-              <StyledTableCell component="th" scope="row">
-                {row.productName}
-              </StyledTableCell>
-              <StyledTableCell align="right">{row.price}</StyledTableCell>
-              <StyledTableCell align="right">{row.quantity}</StyledTableCell>
-              </StyledTableRow>
+    {/* <Card >
+    <Offcanvas show={isOpen} onHide={closeCart} >
+      <Offcanvas.Header closeButton> 
+        <Offcanvas.Title>Cart</Offcanvas.Title>
+       
+      </Offcanvas.Header>
+      <Offcanvas.Body>
+      Close button
+        <Stack >
+          {cartItems.map(item => (
+            <CartItem {...item} />
           ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    <br/>
-       <Typography>
-        Order Total : 1400 Rs.
-       </Typography>
-       <br/><br/>
-    <TextareaAutosize
-  aria-label="minimum height"
-  minRows={5}
-  placeholder="Enter Address"
-  style={{ width: 200 }}
-/> 
-    <br/><br/>
-    <Button variant="contained" color="success" href="/orderNext">
-  Order Now
-</Button>
-    </div>
+          <div className="d-flex align-items-center justify-content-center"
+                style={{ gap: ".5rem" }}>
+            Total{" "}
+            {formatCurrency(
+              cartItems.reduce((total, cartItem) => {
+                const item = pets.find(i => i.petId === cartItem.petId)
+                return total + (item?.petPrice || 0) * cartItem.quantity
+              }, 0)
+            )}
+            <div>
+               <TextareaAutosize
+        aria-label="minimum height"
+        minRows={5}
+        placeholder="Enter Address"
+        style={{ width: 200 }}
+      /></div>
+      <br /><br />
+      <Button variant="contained" color="success" href="/orderNext">
+        Order Now
+      </Button> 
+
+          </div>
+        </Stack>
+      </Offcanvas.Body>
+    </Offcanvas>
+    </Card> */}
+
+<Card className="mainContainer">
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+        Cart
+        </Typography>
+
+        <Stack >
+          {cartItems.map(item => (
+            <CartItem {...item} />
+          ))}
+          <div className="d-flex align-items-center justify-content-center"
+                style={{ gap: ".5rem" }}>
+            Total{" "}
+            {formatCurrency(
+              cartItems.reduce((total, cartItem) => {
+                const item = pets.find(i => i.petId === cartItem.petId)
+                return total + (item?.petPrice || 0) * cartItem.quantity
+              }, 0)
+            )}
+            <div>
+               <TextareaAutosize
+        aria-label="minimum height"
+        minRows={5}
+        placeholder="Enter Address"
+        style={{ width: 200 }}
+      /></div>
+      <br /><br />
+      <Button variant="contained" color="success" href="/orderNext">
+        Order Now
+      </Button> 
+          </div>
+          
+        </Stack>
+
+      </CardContent>
+    </Card>
+    
+
+     
+      </div>
   );
 }
+
+
+
+
+
+
+  
+ 

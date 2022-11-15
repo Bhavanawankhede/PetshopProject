@@ -23,7 +23,7 @@ import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import GoogleIcon from '@mui/icons-material/Google';
 import { orange } from '@mui/material/colors';
-import { Navigate, NavLink, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Navigate, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
@@ -32,7 +32,10 @@ import { Nav } from 'react-bootstrap';
 import AddShoppingCartSharpIcon from '@mui/icons-material/AddShoppingCartSharp';
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import { ShoppingCart } from './ShoppingCart';
-// import { Logout } from './Logout';
+import Logout from './Logout';
+import { useState } from 'react';
+import LogoutIcon from '@mui/icons-material/Logout';
+import { isVisible } from '@testing-library/user-event/dist/utils';
 
 
 
@@ -117,13 +120,13 @@ export default function PrimarySearchAppBar() {
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [showlogout,setShowLogout] = React.useState(false);
+  const [showlogout,setShowLogout] = useState(false);
   let navigate = useNavigate();
   
-  const { openCart, cartQuantity } = useShoppingCart()
-  // const {hideStoreItem,} = useShoppingCart()
-
   
+  const { openCart, cartQuantity } = useShoppingCart()
+  // const { openWish, wishQuantity } = useShoppingCart()
+  // const {hideStoreItem,} = useShoppingCart()
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -151,6 +154,11 @@ export default function PrimarySearchAppBar() {
     setOpen(false);
   };
 
+  const showOpenCart = () =>{
+    openCart();
+    navigate('/shoppingCart');
+  }
+
   // const handleSubmit = () => {
   //   {openCart}
   // }
@@ -176,12 +184,6 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
-  // const showLogoutIcon = (
-  //   <Logout/>
-  // )
-
-  
-
   const mobileMenuId = 'primary-search-account-menu-mobile';
   const renderMobileMenu = (
     <Menu
@@ -200,7 +202,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMobileMenuClose}
     >
       <MenuItem>
-        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+        {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
           <Badge badgeContent={4} color="error">
             <MailIcon />
           </Badge>
@@ -228,11 +230,24 @@ export default function PrimarySearchAppBar() {
           color="inherit"
         >
           <AccountCircle />
-        </IconButton>
+        </IconButton> */}
         <p>Profile</p>
       </MenuItem>
     </Menu>
   );
+
+  const showLogoutBtn =() =>{
+    let user = localStorage.getItem("userEmail")
+    console.log("USER: "+ user)
+    if(user!= null){
+      <Button variant='text' href="/logout" sx={{color: 'white', visibility: "visible"}}  {...showLogoutBtn}><LogoutIcon/></Button>
+      // setShowLogout(true);
+    }
+    else{
+      setShowLogout(false);
+    }
+  };
+
 
 
   return (
@@ -350,11 +365,12 @@ export default function PrimarySearchAppBar() {
               <AccountCircle />
             </IconButton>
           </Box>
+          
           {/* ///////////////////////////////////updated code */}
         {cartQuantity > 0 && (
           <Button
           // onClick={() => { openCart; hideStoreItem;}}
-          onClick= {openCart}
+          onClick= {showOpenCart}
             style={{ width: "3rem", height: "3rem", position: "relative" }}
             className="rounded-circle"
           >
@@ -375,11 +391,13 @@ export default function PrimarySearchAppBar() {
             >
               {cartQuantity}
             </div>
-            
-        <FavoriteIcon></FavoriteIcon>
-         
           </Button>
         )}
+        {/* <div>
+        <FavoriteIcon sx={{ color: 'white' }} fontSize="medium"></FavoriteIcon>
+         </div> */}
+
+
           {/* updated code///////////////////////////////////////////////////// */}
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
@@ -393,10 +411,15 @@ export default function PrimarySearchAppBar() {
               <MoreIcon />
             </IconButton>
           </Box>
+          <Box>
+            <Button variant='text' href="/logout" sx={{color: 'white'}}  {...showLogoutBtn}><LogoutIcon/></Button>
+            {/* <Link to="/logout">Logout</Link> */}
+          </Box>
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
+   
       {/* {showLogoutIcon} */}
     </Box>
    );

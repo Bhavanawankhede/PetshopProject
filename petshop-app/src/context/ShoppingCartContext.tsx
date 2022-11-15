@@ -20,7 +20,7 @@ type WishItem = {
 type ShoppingCartContext = {
   openCart: () => void
   closeCart: () => void
-  getItemLike: (id: number) => number;
+  // getItemLike: (id: number) => number;
   getItemQuantity: (id: number) => number
   increaseCartQuantity: (id: number) => void
   wishlistIncrease: (id: number) => void
@@ -71,9 +71,14 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     return cartItems.find(item => item.petId === id)?.quantity || 0
   }
 
-  function getItemLike(id: number) {
-    return wishItems.find((item) => item.id === id)?.like || 0;
-  }
+  // function getItemLike(id: number) {
+  //   // return wishItems.find((item) => item.id === id)?.like || 0;
+  //   setWishItems(wishItems => {
+  //     if (wishItems.find(item => item.id === id) == null) {
+  //       return [...wishItems, { id, quantity: 1 }]
+  //     } 
+  //   }
+  // }
 
   function increaseCartQuantity(petId: number) {
     setCartItems(currItems => {
@@ -101,7 +106,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
       } else {
         return WishItem.map(item => {
           if (item.id === id) {
-            return { ...item, like: item.like + 1 }  //error
+            return item  //error
           } else {
             return item
           }
@@ -136,7 +141,6 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     <ShoppingCartContext.Provider
       value={{
         getItemQuantity,
-        getItemLike,
         increaseCartQuantity,
         wishlistIncrease,
         decreaseCartQuantity,
@@ -151,7 +155,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
       }}
     >
       {children}
-      <ShoppingCart isOpen={isOpen}/>
+      {/* <ShoppingCart isOpen={isOpen}/> */}
     </ShoppingCartContext.Provider>
   )
 }

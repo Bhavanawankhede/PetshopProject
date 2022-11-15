@@ -8,11 +8,11 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Avatar } from '@mui/material';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
-import axios, { Axios } from 'axios';
-import { convertTypeAcquisitionFromJson } from 'typescript';
+import axios from 'axios';
+
 
 
 const theme = createTheme();
@@ -21,32 +21,70 @@ const theme = createTheme();
 
 function SignIn() {
 
-  const validEmail = new RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$');
-  const validPassword = new RegExp('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,16}');
+  const initialValues = {
+    userEmail: '',
+    userPassword: '',
+  }
+
+const [formValues, setFormValues] = useState(initialValues);
+
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('')
-  const [emailErr, setEmailErr] = useState(false);
-  const [passwordErr, setPasswordErr] = useState(false)
+
   const data = {
     userEmail: userEmail,
     userPassword: userPassword
   }
+  const [formErrors, setFormErrors] = useState({ userEmail: '',
+    userPassword: '',
+  });
+  const validEmail = new RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$');
+
+  useEffect(() => {
+    console.log(formErrors);
+    if (Object.keys(formErrors).length === 0 ) {
+      console.log(formErrors);
+    }
+  }, [formErrors]);
+  const validate = (values: any) => {
+    const errors: any = {};
+    if (!values.userEmail) {
+      errors.userEmail = "Email is required!";
+    } else if (!validEmail.test(values.userEmail)) {
+      errors.userEmail = "This is not a valid email format!";
+    }
+    if (!values.userPassword) {
+      errors.userPassword = "Password is required";
+    } else if (values.userPassword.length < 4) {
+      errors.userPassword = "Password must be more than 4 characters";
+    } else if (values.userPassword.length > 10) {
+      errors.password = "Password cannot exceed more than 10 characters";
+    }
+  
+    return errors;
+  };
+
+  
+  const handleChange = (e: any) => {
+    const { name, value } = e.target;
+    setFormValues({ ...formValues, [name]: value });
+  };
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
     console.log(data);
-   
-    axios.post("http://localhost:8080/user/userLogin", data).then((res: { data: any }) => {
+    setFormErrors(validate(formValues));
+    axios.post("http://localhost:8080/user/userLogin", formValues).then((res: { data: any }) => {
       let role = res.data.userRole;
+      localStorage.setItem('userEmail', res.data.userEmail);
       if ( role == "ADMIN") {
         alert("Welcome Admin")
-      window.location.replace("http://localhost:3000/home");
+      window.location.replace("http://localhost:3000/admin");
 
       } else
        if ( role == "CUSTOMER") {
         alert("Login successful");
-        sessionStorage.setItem('userEmail', res.data.userEmail);
-      window.location.replace("http://localhost:3000/home");
+      window.location.replace("http://localhost:3000/shoppingCart");
       } else {
         alert("Wrong credentials");
       }
@@ -76,33 +114,29 @@ function SignIn() {
               Sign in
             </Typography>
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="userEmail"
-                value={userEmail}
-                onChange={(e) => setUserEmail(e.target.value)}
-                autoComplete="email"
-                autoFocus
-              />
-              {emailErr && <p style={{ color: 'red' }}>Your email is invalid</p>}
-
-              <TextField
-                margin="normal"
-                required
-                fullWidth
-                name="userPassword"
-                label="Password"
-                type="password"
-                id="userPassword"
-                value={userPassword}
-                onChange={(e) => setUserPassword(e.target.value)}
-                autoComplete="current-password"
-              />
-              {passwordErr && <p style={{ color: 'red' }}>Your password is invalid</p>}
+                <TextField
+                  required
+                  fullWidth
+                  id="userEmail"
+                  label="Email Address"
+                  name="userEmail"
+                  value={formValues.userEmail}
+                  onChange={handleChange}
+                  autoComplete="email"
+                />
+                <p className="ErrorClass">{formErrors.userEmail}</p>
+            <TextField
+                  required
+                  fullWidth
+                  name="userPassword"
+                  label="Password"
+                  type="password"
+                  id="userPassword"
+                  value={formValues.userPassword}
+                  onChange={handleChange}
+                  autoComplete="new-password"
+                />
+              <p className="ErrorClass">{formErrors.userPassword}</p>
               <Button
                 type="submit"
                 fullWidth

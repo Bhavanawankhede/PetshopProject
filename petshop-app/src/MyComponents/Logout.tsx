@@ -1,21 +1,27 @@
 import { Box, Button } from '@mui/material'
-import React from 'react'
-import LogoutIcon from '@mui/icons-material/Logout';
+import React, { useEffect } from 'react'
 import {useNavigate } from 'react-router-dom';
+import { isConstructorDeclaration } from 'typescript';
 
 type Props = {}
 
-const navigate = useNavigate();
+
+
 
 export default function Logout({}: Props) {
 
-    const handleLogout = () =>{
-    sessionStorage.removeItem('userEmail');
-    navigate("/home")
-        }
+  useEffect(() => {
+    localStorage.removeItem("userEmail");
+ });
+  
+
+  const navigate = useNavigate();
   return (
-    <Box onSubmit={handleLogout}>
-        <Button type="submit"><LogoutIcon/></Button>
+    <Box >
+      <br/><br/><br/>
+    <h1>You have been logged out</h1>
+    <h3>Login Again....</h3>
+    <Button href="/home" color='secondary'>Home</Button>
     </Box>
   )
 }
