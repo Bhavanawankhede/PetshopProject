@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import { Avatar } from '@mui/material';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 
 
@@ -35,6 +36,7 @@ const [formValues, setFormValues] = useState(initialValues);
     userEmail: userEmail,
     userPassword: userPassword
   }
+  const navigate = useNavigate();
   const [formErrors, setFormErrors] = useState({ userEmail: '',
     userPassword: '',
   });
@@ -45,6 +47,16 @@ const [formValues, setFormValues] = useState(initialValues);
     if (Object.keys(formErrors).length === 0 ) {
       console.log(formErrors);
     }
+      const token = localStorage.getItem('userEmail');
+  
+      var loggedin = false;
+      if (token) {
+        loggedin = true;
+      }
+      if (loggedin == true) {
+        navigate('/home');
+      }
+
   }, [formErrors]);
   const validate = (values: any) => {
     const errors: any = {};
@@ -81,8 +93,7 @@ const [formValues, setFormValues] = useState(initialValues);
         alert("Welcome Admin")
       window.location.replace("http://localhost:3000/admin");
 
-      } else
-       if ( role == "CUSTOMER") {
+      }else if ( role == "CUSTOMER") {
         alert("Login successful");
       window.location.replace("http://localhost:3000/shoppingCart");
       } else {

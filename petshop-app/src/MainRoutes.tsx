@@ -9,11 +9,14 @@ import Logout from './MyComponents/Logout'
 import Navbar from './MyComponents/Navbar'
 import Order from './MyComponents/Order'
 import OrderNext from './MyComponents/OrderNext'
-import Register from './MyComponents/Register'
 import Register1 from './MyComponents/Register1'
 import { ShoppingCart } from './MyComponents/ShoppingCart'
 import { StoreItem } from './MyComponents/StoreItem'
 import { Store } from './MyComponents/Store'
+import AllUsers from './MyComponents/AllUsers'
+import AllPets from './MyComponents/AllPets'
+import AllPetFood from './MyComponents/AllPetFood'
+import EditPet from './MyComponents/EditPet'
 
 export default function MainRoutes() {
 
@@ -36,6 +39,10 @@ export default function MainRoutes() {
                 <Route path='/order' element={<Order isOpen={true}/>}></Route>
                 <Route path='/orderNext' element={<OrderNext/>}></Route>
                 <Route path='/admin' element={<Admin/>}></Route>
+                <Route path='/allusers' element={<AllUsers/>}></Route>
+                <Route path='/allpets' element={<AllPets/>}></Route>
+                <Route path='/allpetfood' element={<AllPetFood/>}></Route>
+                <Route path='/editpet' element={<EditPet petId={0}/>}></Route>
                 
             </Route>
             

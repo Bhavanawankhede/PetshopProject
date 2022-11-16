@@ -30,9 +30,9 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function Home({ }: Props) {
   return (
-    
-      <Box>
-        <SimpleImageSlider
+
+    <Box>
+      <SimpleImageSlider
         width="100%"
         height={504}
         images={images}
@@ -376,7 +376,7 @@ export default function Home({ }: Props) {
 
         </Box>
       </Box>
-      </Box>
+    </Box>
 
 
 

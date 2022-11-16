@@ -10,30 +10,30 @@ export function Dog() {
   useEffect(() => {
     axios.get('http://localhost:8080/petCategory/findByCategoryName/dog').then((response) => {
       // console.log(response)
-       setPets(response.data.pets);
-      
-    });
- }, []);
+      setPets(response.data.pets);
 
- const DisplayData = pets.map((pet) => {
-  return(
-  <tr>
-    <td>
-    <StoreItem {...pet} />
-    </td>
-  </tr>
- )
- })
- console.log(pets);
+    });
+  }, []);
+
+  const DisplayData = pets.map((pet) => {
+    return (
+      <tr>
+        <td>
+          <StoreItem {...pet} />
+        </td>
+      </tr>
+    )
+  })
+  console.log(pets);
   return (
     <Container>
 
       <table className="table" >
         <tbody className="ShowDogs">
-            {DisplayData}
+          {DisplayData}
         </tbody>
       </table>
-     
+
     </Container>
   )
 }

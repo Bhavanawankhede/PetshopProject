@@ -25,7 +25,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { orange } from '@mui/material/colors';
 import { Link, Navigate, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import LoginIcon from '@mui/icons-material/Login';
+import LoginIcon from '@mui/icons-material/Login';      
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useShoppingCart } from "../context/ShoppingCartContext"
 import { Nav } from 'react-bootstrap';
@@ -33,7 +33,7 @@ import AddShoppingCartSharpIcon from '@mui/icons-material/AddShoppingCartSharp';
 import FavoriteIcon from '@mui/icons-material/Favorite'
 import { ShoppingCart } from './ShoppingCart';
 import Logout from './Logout';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { isVisible } from '@testing-library/user-event/dist/utils';
 
@@ -45,6 +45,7 @@ const drawerWidth = 240;
 interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
+
 
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== 'open',
@@ -115,6 +116,7 @@ export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
+    const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -155,9 +157,47 @@ export default function PrimarySearchAppBar() {
   };
 
   const showOpenCart = () =>{
+    if(isLoggedIn){
     openCart();
     navigate('/shoppingCart');
+    }
+    else{
+      openCart();
+      navigate('/login')
+    }
   }
+
+  useEffect(() => {
+    const token = localStorage.getItem('userEmail');
+
+    if (token) {
+      setIsLoggedIn(true);
+    }
+    else {
+      setIsLoggedIn(false);
+    }
+
+})
+
+const showLogoutBtn =() =>{
+  let user = localStorage.getItem("userEmail")
+  console.log("USER: "+ user)
+  if(user!= null){
+    <Button variant='text' href="/logout" sx={{color: 'white', visibility: "visible"}}  {...showLogoutBtn}><LogoutIcon/></Button>
+    // setShowLogout(true);
+  }
+  else{
+    setShowLogout(false);
+  }
+};
+
+const logoutBtn = ()=>{
+  navigate('/logout')
+}
+
+  
+
+
 
   // const handleSubmit = () => {
   //   {openCart}
@@ -179,8 +219,11 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}><LoginIcon/>Login</MenuItem>
-      <MenuItem onClick={handleMenuClose}><HowToRegIcon/>Register</MenuItem>
+       { !isLoggedIn && <MenuItem onClick={handleMenuClose}><LoginIcon/>Login</MenuItem>}
+       { !isLoggedIn && <MenuItem onClick={handleMenuClose}><LoginIcon/>Register</MenuItem>}
+       { isLoggedIn && <MenuItem onClick={logoutBtn}><LoginIcon/>Logout</MenuItem>}
+       {/* { isLoggedIn && <Button variant='text' href="/logout" sx={{color: 'white'}}  {...showLogoutBtn}><LogoutIcon/></Button>} */}
+
     </Menu>
   );
 
@@ -236,17 +279,7 @@ export default function PrimarySearchAppBar() {
     </Menu>
   );
 
-  const showLogoutBtn =() =>{
-    let user = localStorage.getItem("userEmail")
-    console.log("USER: "+ user)
-    if(user!= null){
-      <Button variant='text' href="/logout" sx={{color: 'white', visibility: "visible"}}  {...showLogoutBtn}><LogoutIcon/></Button>
-      // setShowLogout(true);
-    }
-    else{
-      setShowLogout(false);
-    }
-  };
+  
 
 
 
@@ -368,7 +401,7 @@ export default function PrimarySearchAppBar() {
           
           {/* ///////////////////////////////////updated code */}
         {cartQuantity > 0 && (
-          <Button
+           <Button
           // onClick={() => { openCart; hideStoreItem;}}
           onClick= {showOpenCart}
             style={{ width: "3rem", height: "3rem", position: "relative" }}
@@ -412,7 +445,7 @@ export default function PrimarySearchAppBar() {
             </IconButton>
           </Box>
           <Box>
-            <Button variant='text' href="/logout" sx={{color: 'white'}}  {...showLogoutBtn}><LogoutIcon/></Button>
+           {/* { isLoggedIn && <Button variant='text' href="/logout" sx={{color: 'white'}}  {...showLogoutBtn}><LogoutIcon/></Button>} */}
             {/* <Link to="/logout">Logout</Link> */}
           </Box>
         </Toolbar>

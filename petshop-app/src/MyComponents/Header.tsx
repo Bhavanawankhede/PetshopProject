@@ -438,9 +438,9 @@ export default function PrimarySearchAppBar() {
   );
 
   return (
-    
+
     <Box >
-        
+
       <AppBar position="static">
         <Toolbar>
           <IconButton
@@ -452,26 +452,26 @@ export default function PrimarySearchAppBar() {
           >
             <MenuIcon />
           </IconButton>
-          
+
           <PetsIcon></PetsIcon>
-          <Typography variant="h6"  component="div" textAlign={'center'}>
+          <Typography variant="h6" component="div" textAlign={'center'}>
             Pet Store
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
           <Box sx={{ display: { xs: 'none', md: 'flex' } }}>
             <IconButton
-            size="large"
-            color="inherit">
-            <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          </IconButton>
+              size="large"
+              color="inherit">
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+              </Search>
+            </IconButton>
             <IconButton
               size="large"
               edge="end"
