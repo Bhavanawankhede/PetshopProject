@@ -114,7 +114,7 @@ img{
 }
 
 .mainContainer{
-  padding-top: 100px;
+  padding-top: 200px;
 }
 
 .btn-add-delete{
@@ -123,10 +123,21 @@ img{
 
 .tableContainer{
   padding-top: 100px;
-  padding-left: 200px;
+padding-right: 30px;
   
 }
 
+.outerDiv{
+  display: flex;
+}
+
+.rows{
+  padding: 100px;
+}
+
+.favouriteBtn{
+ padding-left: 20px;
+}
 
 
 

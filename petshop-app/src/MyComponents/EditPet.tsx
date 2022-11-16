@@ -6,13 +6,13 @@ import { Outlet } from 'react-router-dom'
 import Link from '@mui/material/Link';
 
 type Props = {
-    petId: number
+   
 }
 
 
 const theme = createTheme();
 
-export default function AddPet({ petId}: Props) {
+export default function AddPet({ }: Props) {
 
     const initialValues = {
         petName: '',
@@ -32,16 +32,18 @@ export default function AddPet({ petId}: Props) {
     });
     const [isSubmit, setIsSubmit] = useState(false);
 
+    const petId = localStorage.getItem('petId');
+
     useEffect(() => {
         console.log(formErrors);
         if (Object.keys(formErrors).length === 0 && isSubmit) {
             console.log(formValues);
         }
 
-        axios.get('http://localhost:8080/findByPetId/{petId}').then((response) => {
+        axios.get(`http://localhost:8080/pet/findByPetId/${petId}`).then((response) => {
             console.log("response")
             setFormValues(response.data);
-            // console.log(users);
+            console.log(formValues);
         });
     }, [formErrors]);
     const validate = (values: any) => {
@@ -77,10 +79,10 @@ export default function AddPet({ petId}: Props) {
         console.log(formValues);
         setFormErrors(validate(formValues));
         setIsSubmit(true);
-        axios.post("http://localhost:8080/user/addUser", formValues).then((res: { data: any }) => {
+        axios.put(`http://localhost:8080/pet/updatePet/${petId}`, formValues).then((res: { data: any }) => {
             console.log("Response" + res.data);
-            alert("Registered Successfully")
-            window.location.replace("http://localhost:3000/login");
+            alert("Updated Successfully")
+            window.location.replace("http://localhost:3000/admin");
         });
     };
 
@@ -186,7 +188,7 @@ export default function AddPet({ petId}: Props) {
                                 variant="contained"
                                 sx={{ mt: 3, mb: 2 }}
                             >
-                                Save
+                                Update
                             </Button>
 
                         </Box>

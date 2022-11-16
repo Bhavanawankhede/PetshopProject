@@ -18,6 +18,7 @@ import AllPets from './MyComponents/AllPets'
 import AllPetFood from './MyComponents/AllPetFood'
 import EditPet from './MyComponents/EditPet'
 
+
 export default function MainRoutes() {
 
   const Test = () => (
@@ -42,7 +43,7 @@ export default function MainRoutes() {
                 <Route path='/allusers' element={<AllUsers/>}></Route>
                 <Route path='/allpets' element={<AllPets/>}></Route>
                 <Route path='/allpetfood' element={<AllPetFood/>}></Route>
-                <Route path='/editpet' element={<EditPet petId={0}/>}></Route>
+                <Route path='/editpet' element={<EditPet/>}></Route>
                 
             </Route>
             

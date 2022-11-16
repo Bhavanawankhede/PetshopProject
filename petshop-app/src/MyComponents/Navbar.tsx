@@ -25,7 +25,7 @@ import GoogleIcon from '@mui/icons-material/Google';
 import { orange } from '@mui/material/colors';
 import { Link, Navigate, NavLink, Outlet, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
-import LoginIcon from '@mui/icons-material/Login';      
+import LoginIcon from '@mui/icons-material/Login';
 import HowToRegIcon from '@mui/icons-material/HowToReg';
 import { useShoppingCart } from "../context/ShoppingCartContext"
 import { Nav } from 'react-bootstrap';
@@ -36,6 +36,7 @@ import Logout from './Logout';
 import { useEffect, useState } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { isVisible } from '@testing-library/user-event/dist/utils';
+import '../App.css';
 
 
 
@@ -116,16 +117,16 @@ export default function PrimarySearchAppBar() {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] =
     React.useState<null | HTMLElement>(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
-  const [showlogout,setShowLogout] = useState(false);
+  const [showlogout, setShowLogout] = useState(false);
   let navigate = useNavigate();
-  
-  
+
+
   const { openCart, cartQuantity } = useShoppingCart()
   // const { openWish, wishQuantity } = useShoppingCart()
   // const {hideStoreItem,} = useShoppingCart()
@@ -156,12 +157,12 @@ export default function PrimarySearchAppBar() {
     setOpen(false);
   };
 
-  const showOpenCart = () =>{
-    if(isLoggedIn){
-    openCart();
-    navigate('/shoppingCart');
+  const showOpenCart = () => {
+    if (isLoggedIn) {
+      openCart();
+      navigate('/shoppingCart');
     }
-    else{
+    else {
       openCart();
       navigate('/login')
     }
@@ -177,31 +178,24 @@ export default function PrimarySearchAppBar() {
       setIsLoggedIn(false);
     }
 
-})
+  })
 
-const showLogoutBtn =() =>{
-  let user = localStorage.getItem("userEmail")
-  console.log("USER: "+ user)
-  if(user!= null){
-    <Button variant='text' href="/logout" sx={{color: 'white', visibility: "visible"}}  {...showLogoutBtn}><LogoutIcon/></Button>
-    // setShowLogout(true);
+  const showLogoutBtn = () => {
+    let user = localStorage.getItem("userEmail")
+    console.log("USER: " + user)
+    if (user != null) {
+      <Button variant='text' href="/logout" sx={{ color: 'white', visibility: "visible" }}  {...showLogoutBtn}><LogoutIcon /></Button>
+      // setShowLogout(true);
+    }
+    else {
+      setShowLogout(false);
+    }
+  };
+
+  const logoutBtn = () => {
+    navigate('/logout')
   }
-  else{
-    setShowLogout(false);
-  }
-};
 
-const logoutBtn = ()=>{
-  navigate('/logout')
-}
-
-  
-
-
-
-  // const handleSubmit = () => {
-  //   {openCart}
-  // }
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
     <Menu
@@ -219,11 +213,9 @@ const logoutBtn = ()=>{
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-       { !isLoggedIn && <MenuItem onClick={handleMenuClose}><LoginIcon/>Login</MenuItem>}
-       { !isLoggedIn && <MenuItem onClick={handleMenuClose}><LoginIcon/>Register</MenuItem>}
-       { isLoggedIn && <MenuItem onClick={logoutBtn}><LoginIcon/>Logout</MenuItem>}
-       {/* { isLoggedIn && <Button variant='text' href="/logout" sx={{color: 'white'}}  {...showLogoutBtn}><LogoutIcon/></Button>} */}
-
+      {!isLoggedIn && <MenuItem onClick={handleMenuClose}><LoginIcon />Login</MenuItem>}
+      {!isLoggedIn && <MenuItem onClick={handleMenuClose}><LoginIcon />Register</MenuItem>}
+      {isLoggedIn && <MenuItem onClick={logoutBtn}><LoginIcon />Logout</MenuItem>}
     </Menu>
   );
 
@@ -244,26 +236,6 @@ const logoutBtn = ()=>{
       open={isMobileMenuOpen}
       onClose={handleMobileMenuClose}
     >
-      <MenuItem>
-        {/* <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="error">
-            <MailIcon />
-          </Badge>
-        </IconButton>
-        <p>Messages</p>
-      </MenuItem>
-      <MenuItem>
-        <IconButton
-          size="large"
-          aria-label="show 17 new notifications"
-          color="inherit"
-        >
-          <Badge badgeContent={17} color="error">
-            <NotificationsIcon />
-          </Badge>
-        </IconButton>
-        <p>Notifications</p>
-      </MenuItem>
       <MenuItem onClick={handleProfileMenuOpen}>
         <IconButton
           size="large"
@@ -273,119 +245,119 @@ const logoutBtn = ()=>{
           color="inherit"
         >
           <AccountCircle />
-        </IconButton> */}
+        </IconButton>
         <p>Profile</p>
       </MenuItem>
     </Menu>
   );
 
-  
+
 
 
 
   return (
-    <Box >
-        <Outlet/>
-        <AppBar position="fixed" open={open}>
+    <Box>
+      <Outlet />
+      <AppBar position="fixed" open={open}>
         <Toolbar>
           <IconButton
-              color="inherit"
-              aria-label="open drawer"
-              onClick={handleDrawerOpen}
-              edge="start"
-              sx={{ mr: 2, ...(open && { display: 'none' }) }}
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            sx={{ mr: 2, ...(open && { display: 'none' }) }}
           >
             <MenuIcon />
           </IconButton>
-          
+
           <PetsIcon></PetsIcon>
-          <Button variant="text" href="/home" sx={{color: 'white'}}>
-            <Typography variant="h6"  component="div" textAlign={'center'}>
+          <Button variant="text" href="/home" sx={{ color: 'white' }}>
+            <Typography variant="h6" component="div" textAlign={'center'}>
               Pet Store
             </Typography>
           </Button>
           <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          '& .MuiDrawer-paper': {
-            width: drawerWidth,
-            boxSizing: 'border-box',
-          },
-        }}
-        variant="persistent"
-        anchor="left"
-        open={open}
-      >
-        <DrawerHeader>
-          <IconButton onClick={handleDrawerClose}>
-            {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
-          </IconButton>
-        </DrawerHeader>
-        <Divider />
-        <List>
-          {/* {['Dog', 'Cat', 'Aquarium pets', 'Small Pets' , 'Birds' , 'Login'].map((text, index) => ( */}
-            <ListItem  disablePadding>
-              <ListItemButton component="a" href="/dog">
-              {/* <ListItemButton>
+            sx={{
+              width: drawerWidth,
+              flexShrink: 0,
+              '& .MuiDrawer-paper': {
+                width: drawerWidth,
+                boxSizing: 'border-box',
+              },
+            }}
+            variant="persistent"
+            anchor="left"
+            open={open}
+          >
+            <DrawerHeader>
+              <IconButton onClick={handleDrawerClose}>
+                {theme.direction === 'ltr' ? <ChevronLeftIcon /> : <ChevronRightIcon />}
+              </IconButton>
+            </DrawerHeader>
+            <Divider />
+            <List>
+              {/* {['Dog', 'Cat', 'Aquarium pets', 'Small Pets' , 'Birds' , 'Login'].map((text, index) => ( */}
+              <ListItem disablePadding>
+                <ListItemButton component="a" href="/dog">
+                  {/* <ListItemButton>
               <Nav.Link to="dog" as={NavLink}>
             Dog
           </Nav.Link> */}
-                <ListItemText primary={"Dog"} />
-              </ListItemButton>
-            </ListItem>
-          {/* ))} */}
-          <ListItem  disablePadding>
-              <ListItemButton component="a" href="#">
-                <ListItemText primary={"Cat"} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem  disablePadding>
-              <ListItemButton component="a" href="#">
-                <ListItemText primary={"Birds"} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem  disablePadding>
-              <ListItemButton component="a" href="#">
-                <ListItemText primary={"Aquerium  Pets"} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem  disablePadding>
-              <ListItemButton component="a" href="#">
-                <ListItemText primary={"About Us"} />
-              </ListItemButton>
-            </ListItem>
-            <ListItem  >
-              <ListItemText primary={"Login"} />
-            </ListItem>
-            <ListItem>
-            <ListItemButton>
-                <ListItemIcon><FacebookIcon color="primary"/></ListItemIcon>
-              </ListItemButton>
-              <ListItemButton>
-                <ListItemIcon><InstagramIcon sx={{ color: orange[300] }}/></ListItemIcon>
-              </ListItemButton>
-              <ListItemButton>
-                <ListItemIcon><GoogleIcon color="action"/></ListItemIcon>
-              </ListItemButton>
-            </ListItem>
-        </List>
-      </Drawer>
-    <Box sx={{ flexGrow: 1 }} />
-          <Box sx={{ display: { xs: 'none', md: 'flex' } ,'padding-right':'20'}}>
+                  <ListItemText primary={"Dog"} />
+                </ListItemButton>
+              </ListItem>
+              {/* ))} */}
+              <ListItem disablePadding>
+                <ListItemButton component="a" href="#">
+                  <ListItemText primary={"Cat"} />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href="#">
+                  <ListItemText primary={"Birds"} />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href="#">
+                  <ListItemText primary={"Aquerium  Pets"} />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href="#">
+                  <ListItemText primary={"About Us"} />
+                </ListItemButton>
+              </ListItem>
+              <ListItem  >
+                <ListItemText primary={"Login"} />
+              </ListItem>
+              <ListItem>
+                <ListItemButton>
+                  <ListItemIcon><FacebookIcon color="primary" /></ListItemIcon>
+                </ListItemButton>
+                <ListItemButton>
+                  <ListItemIcon><InstagramIcon sx={{ color: orange[300] }} /></ListItemIcon>
+                </ListItemButton>
+                <ListItemButton>
+                  <ListItemIcon><GoogleIcon color="action" /></ListItemIcon>
+                </ListItemButton>
+              </ListItem>
+            </List>
+          </Drawer>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, 'padding-right': '20' }}>
             <IconButton
-            size="large"
-            color="inherit">
-            <Search>
-            <SearchIconWrapper>
-              <SearchIcon />
-            </SearchIconWrapper>
-            <StyledInputBase
-              placeholder="Search…"
-              inputProps={{ 'aria-label': 'search' }}
-            />
-          </Search>
-          </IconButton>
+              size="large"
+              color="inherit">
+              <Search>
+                <SearchIconWrapper>
+                  <SearchIcon />
+                </SearchIconWrapper>
+                <StyledInputBase
+                  placeholder="Search…"
+                  inputProps={{ 'aria-label': 'search' }}
+                />
+              </Search>
+            </IconButton>
             <IconButton
               size="large"
               edge="end"
@@ -398,40 +370,36 @@ const logoutBtn = ()=>{
               <AccountCircle />
             </IconButton>
           </Box>
-          
-          {/* ///////////////////////////////////updated code */}
-        {cartQuantity > 0 && (
-           <Button
-          // onClick={() => { openCart; hideStoreItem;}}
-          onClick= {showOpenCart}
-            style={{ width: "3rem", height: "3rem", position: "relative" }}
-            className="rounded-circle"
-          >
-            
-            <AddShoppingCartSharpIcon sx={{ color: 'white' }} fontSize="large"></AddShoppingCartSharpIcon> 
-            
-            <div
-              className="rounded-circle bg-danger d-flex justify-content-center align-items-center"
-              style={{
-                color: "white",
-                width: "1.5rem",
-                height: "1.5rem",
-                position: "absolute",
-                bottom: 0,
-                right: 0,
-                // transform: "translate(25%, 25%)",
-              }}
+         
+          {cartQuantity > 0 && (
+      <Button
+              onClick={showOpenCart}
+              style={{ width: "3rem", height: "3rem", position: "relative" }}
+              className="rounded-circle"
             >
-              {cartQuantity}
-            </div>
-          </Button>
-        )}
-        {/* <div>
-        <FavoriteIcon sx={{ color: 'white' }} fontSize="medium"></FavoriteIcon>
-         </div> */}
 
+            <AddShoppingCartSharpIcon sx={{ color: 'white' }} fontSize="large"></AddShoppingCartSharpIcon>
 
-          {/* updated code///////////////////////////////////////////////////// */}
+              <div
+                className="rounded-circle bg-danger d-flex justify-content-center align-items-center"
+                style={{
+                  color: "white",
+                  width: "1.5rem",
+                  height: "1.5rem",
+                  position: "absolute",
+                  bottom: 0,
+                  right: 0,
+                }}
+              >
+                {cartQuantity}
+              </div>
+            </Button>
+          )}
+         
+          <Box className='favouriteBtn'>
+            <FavoriteIcon sx={{ color: 'white' }} fontSize="medium"></FavoriteIcon>
+          </Box>
+          
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -445,17 +413,17 @@ const logoutBtn = ()=>{
             </IconButton>
           </Box>
           <Box>
-           {/* { isLoggedIn && <Button variant='text' href="/logout" sx={{color: 'white'}}  {...showLogoutBtn}><LogoutIcon/></Button>} */}
+            {/* { isLoggedIn && <Button variant='text' href="/logout" sx={{color: 'white'}}  {...showLogoutBtn}><LogoutIcon/></Button>} */}
             {/* <Link to="/logout">Logout</Link> */}
           </Box>
         </Toolbar>
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
-   
+
       {/* {showLogoutIcon} */}
     </Box>
-   );
+  );
 }
 
 

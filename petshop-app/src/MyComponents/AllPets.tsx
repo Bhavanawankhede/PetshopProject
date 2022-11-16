@@ -6,15 +6,13 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Button } from '@mui/material';
 import '../App.css';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { Navigate, useNavigate } from 'react-router-dom';
-import EditPet from './EditPet';
+import { Navigate, Route, useNavigate } from 'react-router-dom';
 
 const StyledTableCell: any = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -56,22 +54,26 @@ export default function AllPets() {
         });
     }
 
-    const editPet = (petId: any) =>{
-        // navigate('/EditPet');
-        <EditPet {...petId}/>
+    const editPet = (petId: any) => {
+        localStorage.setItem("petId",petId);
+        navigate('/editpet');
+
+
+
+
     }
 
 
 
 
     const styleTable = {
-        width: 900
+        width: 1200
     }
 
     return (
         <div className='tableContainer'>
             <h1>All Users</h1>
-            <TableContainer  style={styleTable} >
+            <TableContainer style={styleTable} >
                 <Table aria-label="customized table" className='userTable'>
                     <TableHead>
                         <TableRow>
@@ -93,16 +95,16 @@ export default function AllPets() {
                                 <StyledTableCell>{user.gender}</StyledTableCell>
                                 <StyledTableCell>{user.petPrice}</StyledTableCell>
                                 <StyledTableCell>{user.petDescription}</StyledTableCell>
-                                <StyledTableCell><Button variant='text' color='success' onClick={()=>editPet(user.petId)}><EditIcon /></Button></StyledTableCell>
-                                <StyledTableCell><Button variant='text' color='error' onClick={()=>deletePet(user.petId)}><DeleteIcon /></Button></StyledTableCell>
+                                <StyledTableCell><Button variant='text' color='success' onClick={() => editPet(user.petId)}><EditIcon /></Button></StyledTableCell>
+                                <StyledTableCell><Button variant='text' color='error' onClick={() => deletePet(user.petId)}><DeleteIcon /></Button></StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
-                </Table><br/>
+                </Table><br />
                 <Button href="/admin" variant="contained" color="success">Back</Button>
-                <Button href="#" variant="contained" color="success" style={{'float': 'right'}}>Add Pet</Button>
+                <Button href="#" variant="contained" color="success" style={{ 'float': 'right' }}>Add Pet</Button>
             </TableContainer>
-
+            
         </div>
     );
 }
