@@ -38,7 +38,7 @@ export default function AllPets() {
         axios.get('http://localhost:8080/pet/getAllPets').then((response) => {
             console.log("response")
             setUsers(response.data);
-            console.log(users);
+            console.log(response.data);
         });
     }, []);
 
@@ -57,9 +57,6 @@ export default function AllPets() {
     const editPet = (petId: any) => {
         localStorage.setItem("petId",petId);
         navigate('/editpet');
-
-
-
 
     }
 
@@ -84,6 +81,7 @@ export default function AllPets() {
                             <StyledTableCell>Description</StyledTableCell>
                             <StyledTableCell>Edit</StyledTableCell>
                             <StyledTableCell>Delete</StyledTableCell>
+                        
 
                         </TableRow>
                     </TableHead>

@@ -13,7 +13,7 @@ export default function Admin({ }: Props) {
 
   const navigate = useNavigate();
 
-  const [showUser, setShowUser] = useState(false);
+  const [showUser, setShowUser] = useState(true);
   const [showPets, setShowPets] = useState(false);
   const [showPetFood, setShowPetFood] = useState(false);
 

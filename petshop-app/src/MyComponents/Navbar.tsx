@@ -128,7 +128,7 @@ export default function PrimarySearchAppBar() {
 
 
   const { openCart, cartQuantity } = useShoppingCart()
-  // const { openWish, wishQuantity } = useShoppingCart()
+  const { openWish, wishQuantity } = useShoppingCart()
   // const {hideStoreItem,} = useShoppingCart()
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -167,6 +167,20 @@ export default function PrimarySearchAppBar() {
       navigate('/login')
     }
   }
+
+  const showOpenWish = () => {
+    // if (isLoggedIn) {
+    //   openWish();
+    //   navigate('/favourites');
+    // }
+    // else {
+    //   openWish();
+    //   navigate('/login')
+    // }
+    openWish();
+    navigate('/favourites');
+  }
+
 
   useEffect(() => {
     const token = localStorage.getItem('userEmail');
@@ -395,10 +409,37 @@ export default function PrimarySearchAppBar() {
               </div>
             </Button>
           )}
+
+          {/* /////////////////////////CODE FOR FAVOURITE BUTTON/////////////////////////// */}
+          {wishQuantity > 0 && (
+      <Button
+              onClick={showOpenWish}
+              style={{ width: "3rem", height: "3rem", position: "relative" }}
+             
+            >
+
+            <FavoriteIcon sx={{ color: 'white' }} fontSize="large"></FavoriteIcon>
+
+              <div
+                className="rounded-circle bg-danger d-flex justify-content-center align-items-center"
+                style={{
+                  color: "white",
+                  width: "1.5rem",
+                  height: "1.5rem",
+                  position: "absolute",
+                  bottom: 0,
+                  right: 0,
+                }}
+              >
+                {wishQuantity}
+              </div>
+            </Button>
+          )}
          
-          <Box className='favouriteBtn'>
+         
+          {/* <Box className='favouriteBtn'>
             <FavoriteIcon sx={{ color: 'white' }} fontSize="medium"></FavoriteIcon>
-          </Box>
+          </Box> */}
           
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton

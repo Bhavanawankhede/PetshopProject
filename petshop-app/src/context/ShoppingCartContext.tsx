@@ -19,6 +19,7 @@ type WishItem = {
 
 type ShoppingCartContext = {
   openCart: () => void
+  openWish: () => void
   closeCart: () => void
   // getItemLike: (id: number) => number;
   getItemQuantity: (id: number) => number
@@ -64,6 +65,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
   
 
   const openCart = () =>  setIsOpen(true)
+  const openWish = () =>  setIsOpen(true)
   const closeCart = () => setIsOpen(false)
   // const hideStoreItem = () => setisStoreItemvisible(false);
   
@@ -146,6 +148,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
         decreaseCartQuantity,
         removeFromCart,
         openCart,
+        openWish,
         closeCart,
         // hideStoreItem,
         cartItems,

@@ -27,7 +27,7 @@ function SignIn() {
     userPassword: '',
   }
 
-const [formValues, setFormValues] = useState(initialValues);
+  const [formValues, setFormValues] = useState(initialValues);
 
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('')
@@ -37,25 +37,28 @@ const [formValues, setFormValues] = useState(initialValues);
     userPassword: userPassword
   }
   const navigate = useNavigate();
-  const [formErrors, setFormErrors] = useState({ userEmail: '',
+  const [formErrors, setFormErrors] = useState({
+    userEmail: '',
     userPassword: '',
   });
   const validEmail = new RegExp('^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$');
 
+  var token: any = null;
+  var loggedin = false;
   useEffect(() => {
     console.log(formErrors);
-    if (Object.keys(formErrors).length === 0 ) {
+    if (Object.keys(formErrors).length === 0) {
       console.log(formErrors);
     }
-      const token = localStorage.getItem('userEmail');
-  
-      var loggedin = false;
-      if (token) {
-        loggedin = true;
-      }
-      if (loggedin == true) {
-        navigate('/home');
-      }
+    //  const token = localStorage.getItem('userEmail');
+    //     var loggedin = false;
+    //     if (token) {
+    //       loggedin = true;
+    //     }
+    //     if (loggedin == true) {
+    //       navigate('/home');
+    //     }
+
 
   }, [formErrors]);
   const validate = (values: any) => {
@@ -72,11 +75,11 @@ const [formValues, setFormValues] = useState(initialValues);
     } else if (values.userPassword.length > 10) {
       errors.password = "Password cannot exceed more than 10 characters";
     }
-  
+
     return errors;
   };
 
-  
+
   const handleChange = (e: any) => {
     const { name, value } = e.target;
     setFormValues({ ...formValues, [name]: value });
@@ -86,21 +89,38 @@ const [formValues, setFormValues] = useState(initialValues);
     e.preventDefault();
     console.log(data);
     setFormErrors(validate(formValues));
+    console.log(formErrors)
+
     axios.post("http://localhost:8080/user/userLogin", formValues).then((res: { data: any }) => {
       let role = res.data.userRole;
       localStorage.setItem('userEmail', res.data.userEmail);
-      if ( role == "ADMIN") {
-        alert("Welcome Admin")
-      window.location.replace("http://localhost:3000/admin");
+      if (formValues.userEmail == res.data.userEmail && formValues.userPassword == res.data.userPassword) {
+        token = localStorage.getItem('userEmail');
+        if (role == "ADMIN") {
+          // alert("Welcome Admin")
+          window.location.replace("http://localhost:3000/admin");
 
-      }else if ( role == "CUSTOMER") {
-        alert("Login successful");
-      window.location.replace("http://localhost:3000/shoppingCart");
-      } else {
-        alert("Wrong credentials");
+        }
+        if (role == "CUSTOMER") {
+          // alert("Login successful");
+          window.location.replace("http://localhost:3000/shoppingCart");
+        }
+      }
+      else {
+        console.log("Wrong Credentials")
+
       }
 
+      if (token) {
+        loggedin = true;
+      } else
+        if (loggedin == true) {
+          navigate('/home');
+        }
+
     });
+
+
 
   }
 
@@ -125,28 +145,28 @@ const [formValues, setFormValues] = useState(initialValues);
               Sign in
             </Typography>
             <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
-                <TextField
-                  required
-                  fullWidth
-                  id="userEmail"
-                  label="Email Address"
-                  name="userEmail"
-                  value={formValues.userEmail}
-                  onChange={handleChange}
-                  autoComplete="email"
-                />
-                <p className="ErrorClass">{formErrors.userEmail}</p>
-            <TextField
-                  required
-                  fullWidth
-                  name="userPassword"
-                  label="Password"
-                  type="password"
-                  id="userPassword"
-                  value={formValues.userPassword}
-                  onChange={handleChange}
-                  autoComplete="new-password"
-                />
+              <TextField
+                required
+                fullWidth
+                id="userEmail"
+                label="Email Address"
+                name="userEmail"
+                value={formValues.userEmail}
+                onChange={handleChange}
+                autoComplete="email"
+              />
+              <p className="ErrorClass">{formErrors.userEmail}</p>
+              <TextField
+                required
+                fullWidth
+                name="userPassword"
+                label="Password"
+                type="password"
+                id="userPassword"
+                value={formValues.userPassword}
+                onChange={handleChange}
+                autoComplete="new-password"
+              />
               <p className="ErrorClass">{formErrors.userPassword}</p>
               <Button
                 type="submit"

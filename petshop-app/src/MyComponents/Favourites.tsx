@@ -1,6 +1,6 @@
 import { Button, Card, CardActions, CardContent, CardMedia, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
 import * as React from 'react';
-// import JsonData from './data.json';
+import JsonData from './data.json';
 import '../App.css';
 
 
@@ -12,8 +12,8 @@ export default function Favourites() {
     setSortBy(event.target.value);
   };
 
-  // const DisplayData = JsonData.map(
-  //   (info) => {
+  // const DisplayData= JsonData.map(
+  //   (info: any) => {
   //     return (
   //       <tr>
   //         <td>
@@ -69,9 +69,9 @@ export default function Favourites() {
       <br /><br /><br />
       <div>
         <table className="table" >
-          {/* <tbody className="showProducts">
-            {/* {DisplayData}
-          </tbody> */}
+          <tbody className="showProducts">
+            {/* {DisplayData} */}
+          </tbody>
         </table>
       </div>
     </div>

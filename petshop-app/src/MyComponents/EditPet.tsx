@@ -14,12 +14,15 @@ const theme = createTheme();
 
 export default function AddPet({ }: Props) {
 
+    const categoryId = localStorage.getItem('categoryId');
+
     const initialValues = {
         petName: '',
         gender: '',
         petPrice: '',
         petDescription: '',
         petImage: '',
+        categoryId: ''
     }
 
     const [formValues, setFormValues] = useState(initialValues);
@@ -33,6 +36,7 @@ export default function AddPet({ }: Props) {
     const [isSubmit, setIsSubmit] = useState(false);
 
     const petId = localStorage.getItem('petId');
+   
 
     useEffect(() => {
         console.log(formErrors);

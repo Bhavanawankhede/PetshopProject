@@ -17,6 +17,7 @@ import AllUsers from './MyComponents/AllUsers'
 import AllPets from './MyComponents/AllPets'
 import AllPetFood from './MyComponents/AllPetFood'
 import EditPet from './MyComponents/EditPet'
+import Favourites from './MyComponents/Favourites'
 
 
 export default function MainRoutes() {
@@ -44,6 +45,7 @@ export default function MainRoutes() {
                 <Route path='/allpets' element={<AllPets/>}></Route>
                 <Route path='/allpetfood' element={<AllPetFood/>}></Route>
                 <Route path='/editpet' element={<EditPet/>}></Route>
+                <Route path='/favourites' element={<Favourites/>}></Route>
                 
             </Route>
             
