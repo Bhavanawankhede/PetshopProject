@@ -86,11 +86,13 @@ const handleChange = (e: any) => {
     console.log(formValues);
     setFormErrors(validate(formValues));
     setIsSubmit(true);
+    if(Object.keys(formErrors).length === 0  ){
     axios.post("http://localhost:8080/user/addUser", formValues).then((res: { data: any }) => {
     console.log("Response"+ res.data);
     alert("Registered Successfully")
       window.location.replace("http://localhost:3000/login");
   });
+}
   };
 
   return (
@@ -107,11 +109,11 @@ const handleChange = (e: any) => {
             alignItems: 'center',
           }}
         >
-          {Object.keys(formErrors).length === 0 && isSubmit ? (
+          {/* {Object.keys(formErrors).length === 0 && isSubmit ? (
         <div className="ui message success">Signed in successfully</div>
       ) : (
         <pre></pre>
-      )}
+      )} */}
           <Avatar  sx={{ bgcolor: '#9575cd' }} variant="rounded">
           <HowToRegIcon/>
          </Avatar>

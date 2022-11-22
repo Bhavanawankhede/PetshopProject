@@ -10,7 +10,7 @@ import Paper from '@mui/material/Paper';
 // import { FaAlignJustify, FaCentercode } from 'react-icons/fa';
 import { Button, CardContent, TextareaAutosize, Typography } from '@mui/material';
 import { useEffect, useState } from "react"
-import {  Card, Offcanvas, Stack } from "react-bootstrap"
+import { Card, Offcanvas, Stack } from "react-bootstrap"
 import { useShoppingCart } from "../context/ShoppingCartContext"
 import { formatCurrency } from "../utilities/formatCurrency"
 import { CartItem } from "./CartItem"
@@ -57,13 +57,13 @@ type ShoppingCartProps = {
 }
 
 
-export default function CustomizedTables({ isOpen }: ShoppingCartProps)  {
-  
+export default function CustomizedTables({ isOpen }: ShoppingCartProps) {
+
   const { closeCart, cartItems } = useShoppingCart()
   const [pets, setPets] = useState<any[]>([]);
   const navigate = useNavigate();
 
-  const checkout:any= () =>{
+  const checkout: any = () => {
     navigate("/order")
   }
 
@@ -82,85 +82,46 @@ export default function CustomizedTables({ isOpen }: ShoppingCartProps)  {
 
   return (
     <div>
-    {/* <Card >
-    <Offcanvas show={isOpen} onHide={closeCart} >
-      <Offcanvas.Header closeButton> 
-        <Offcanvas.Title>Cart</Offcanvas.Title>
-       
-      </Offcanvas.Header>
-      <Offcanvas.Body>
-      Close button
-        <Stack >
-          {cartItems.map(item => (
-            <CartItem {...item} />
-          ))}
-          <div className="d-flex align-items-center justify-content-center"
-                style={{ gap: ".5rem" }}>
-            Total{" "}
-            {formatCurrency(
-              cartItems.reduce((total, cartItem) => {
-                const item = pets.find(i => i.petId === cartItem.petId)
-                return total + (item?.petPrice || 0) * cartItem.quantity
-              }, 0)
-            )}
-            <div>
-               <TextareaAutosize
-        aria-label="minimum height"
-        minRows={5}
-        placeholder="Enter Address"
-        style={{ width: 200 }}
-      /></div>
-      <br /><br />
-      <Button variant="contained" color="success" href="/orderNext">
-        Order Now
-      </Button> 
+      <Card className="mainContainer">
+        <CardContent>
+          <Typography gutterBottom variant="h5" component="div">
+            Cart
+          </Typography>
 
-          </div>
-        </Stack>
-      </Offcanvas.Body>
-    </Offcanvas>
-    </Card> */}
+          <Stack >
+            {cartItems.map(item => (
+              <CartItem {...item} />
+            ))}
+            <div className="d-flex align-items-center justify-content-center"
+              style={{ gap: ".5rem" }}>
+              Total{" "}
+              {formatCurrency(
+                cartItems.reduce((total, cartItem) => {
+                  const item = pets.find(i => i.petId === cartItem.petId)
+                  return total + (item?.petPrice || 0) * cartItem.quantity
+                }, 0)
+              )}
+              <div>
+                <TextareaAutosize
+                  aria-label="minimum height"
+                  minRows={5}
+                  placeholder="Enter Address"
+                  style={{ width: 200 }}
+                /></div>
+              <br /><br />
+              <Button variant="contained" color="success" href="/orderNext">
+                Order Now
+              </Button>
+            </div>
 
-<Card className="mainContainer">
-      <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
-        Cart
-        </Typography>
+          </Stack>
 
-        <Stack >
-          {cartItems.map(item => (
-            <CartItem {...item} />
-          ))}
-          <div className="d-flex align-items-center justify-content-center"
-                style={{ gap: ".5rem" }}>
-            Total{" "}
-            {formatCurrency(
-              cartItems.reduce((total, cartItem) => {
-                const item = pets.find(i => i.petId === cartItem.petId)
-                return total + (item?.petPrice || 0) * cartItem.quantity
-              }, 0)
-            )}
-            <div>
-               <TextareaAutosize
-        aria-label="minimum height"
-        minRows={5}
-        placeholder="Enter Address"
-        style={{ width: 200 }}
-      /></div>
-      <br /><br />
-      <Button variant="contained" color="success" href="/orderNext">
-        Order Now
-      </Button> 
-          </div>
-          
-        </Stack>
+        </CardContent>
+      </Card>
 
-      </CardContent>
-    </Card>
-    
 
-     
-      </div>
+
+    </div>
   );
 }
 
@@ -169,5 +130,4 @@ export default function CustomizedTables({ isOpen }: ShoppingCartProps)  {
 
 
 
-  
- 
+

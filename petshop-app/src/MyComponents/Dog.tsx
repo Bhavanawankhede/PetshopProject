@@ -9,7 +9,7 @@ export function Dog() {
 
   useEffect(() => {
     axios.get('http://localhost:8080/petCategory/findByCategoryName/dog').then((response) => {
-      console.log(response.data)
+      console.log( response.data)
       setPets(response.data.pets);
 
     });

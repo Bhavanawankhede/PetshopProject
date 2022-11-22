@@ -108,15 +108,16 @@ function SignIn() {
       }
       else {
         console.log("Wrong Credentials")
+        alert("Wrong Credentials")
 
       }
 
-      if (token) {
-        loggedin = true;
-      } else
-        if (loggedin == true) {
-          navigate('/home');
-        }
+      // if (token) {
+      //   loggedin = true;
+      // } else
+      //   if (loggedin == true) {
+      //     navigate('/home');
+      //   }
 
     });
 

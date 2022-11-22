@@ -169,16 +169,15 @@ export default function PrimarySearchAppBar() {
   }
 
   const showOpenWish = () => {
-    // if (isLoggedIn) {
-    //   openWish();
-    //   navigate('/favourites');
-    // }
-    // else {
-    //   openWish();
-    //   navigate('/login')
-    // }
-    openWish();
-    navigate('/favourites');
+    if (isLoggedIn) {
+      openWish();
+      navigate('/favourites');
+    }
+    else {
+      openWish();
+      navigate('/login')
+    }
+   
   }
 
 
@@ -341,8 +340,15 @@ export default function PrimarySearchAppBar() {
                   <ListItemText primary={"About Us"} />
                 </ListItemButton>
               </ListItem>
-              <ListItem  >
-                <ListItemText primary={"Login"} />
+              <ListItem disablePadding>
+                <ListItemButton component="a" href="/home">
+                  <ListItemText primary={"Home"} />
+                </ListItemButton>
+              </ListItem>
+              <ListItem disablePadding>
+                <ListItemButton component="a" href="/admin">
+                  <ListItemText primary={"Admin"} />
+                </ListItemButton>
               </ListItem>
               <ListItem>
                 <ListItemButton>

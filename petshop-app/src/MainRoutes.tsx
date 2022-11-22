@@ -17,7 +17,9 @@ import AllUsers from './MyComponents/AllUsers'
 import AllPets from './MyComponents/AllPets'
 import AllPetFood from './MyComponents/AllPetFood'
 import EditPet from './MyComponents/EditPet'
-import Favourites from './MyComponents/Favourites'
+import { Favourites } from './MyComponents/Favourites'
+import AddPet1 from './MyComponents/AddPet1'
+import AddPets from './MyComponents/AddPets'
 
 
 export default function MainRoutes() {
@@ -46,6 +48,7 @@ export default function MainRoutes() {
                 <Route path='/allpetfood' element={<AllPetFood/>}></Route>
                 <Route path='/editpet' element={<EditPet/>}></Route>
                 <Route path='/favourites' element={<Favourites/>}></Route>
+                <Route path='/addpet' element={<AddPet1/>}></Route>
                 
             </Route>
             

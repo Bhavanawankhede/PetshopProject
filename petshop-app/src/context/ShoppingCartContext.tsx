@@ -2,6 +2,7 @@ import { createContext, ReactNode, useContext, useState } from "react"
 import { ShoppingCart } from "../MyComponents/ShoppingCart"
 import { useLocalStorage } from "../hooks/useLocalStorage"
 import { StoreItem } from "../MyComponents/StoreItem"
+import axios from "axios"
 //orignal 
 
 type ShoppingCartProviderProps = {
@@ -24,7 +25,7 @@ type ShoppingCartContext = {
   // getItemLike: (id: number) => number;
   getItemQuantity: (id: number) => number
   increaseCartQuantity: (id: number) => void
-  wishlistIncrease: (id: number) => void
+  wishlistIncrease: (id: any) => void
   decreaseCartQuantity: (id: number) => void
   removeFromCart: (id: number) => void
   // hideStoreItem: () => void
@@ -48,7 +49,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
     []
   )
   const [wishItems, setWishItems] = useLocalStorage<WishItem[]>(
-    "shopping-cart",
+    "wishItem",
     []
   )
 
@@ -100,8 +101,12 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
   }
 
 
-  function wishlistIncrease(id: number) {
-    console.log("akshay");
+  function wishlistIncrease(id: any) {
+    console.log("wishlist items");
+  //   axios.post(`http://localhost:8080/favouriteList/addToFavouriteList/${petId}/${petId}`, pet).then((res: { data: any }) => {
+  //     console.log(res.data);
+  //     alert("favourite added successfully")
+  // });
     setWishItems(WishItem => {
       if (WishItem.find(item => item.id === id) == null) {
         return [...WishItem, { id, like: 1 }]
@@ -115,6 +120,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
         })
       }
     })
+    localStorage.setItem("favouriteId",id);
     console.log(wishItems);
   }
 

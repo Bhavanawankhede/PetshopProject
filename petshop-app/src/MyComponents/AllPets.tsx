@@ -54,8 +54,9 @@ export default function AllPets() {
         });
     }
 
-    const editPet = (petId: any) => {
+    const editPet = (petId: any,categoryId: any) => {
         localStorage.setItem("petId",petId);
+        localStorage.setItem("categoryId",categoryId);
         navigate('/editpet');
 
     }
@@ -93,14 +94,14 @@ export default function AllPets() {
                                 <StyledTableCell>{user.gender}</StyledTableCell>
                                 <StyledTableCell>{user.petPrice}</StyledTableCell>
                                 <StyledTableCell>{user.petDescription}</StyledTableCell>
-                                <StyledTableCell><Button variant='text' color='success' onClick={() => editPet(user.petId)}><EditIcon /></Button></StyledTableCell>
+                                <StyledTableCell><Button variant='text' color='success' onClick={() => editPet(user.petId,user.categoryId)}><EditIcon /></Button></StyledTableCell>
                                 <StyledTableCell><Button variant='text' color='error' onClick={() => deletePet(user.petId)}><DeleteIcon /></Button></StyledTableCell>
                             </StyledTableRow>
                         ))}
                     </TableBody>
                 </Table><br />
                 <Button href="/admin" variant="contained" color="success">Back</Button>
-                <Button href="#" variant="contained" color="success" style={{ 'float': 'right' }}>Add Pet</Button>
+                <Button href="/addpet" variant="contained" color="success" style={{ 'float': 'right' }} >Add Pet</Button>
             </TableContainer>
             
         </div>

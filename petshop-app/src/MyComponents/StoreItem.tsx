@@ -9,6 +9,7 @@ import { display } from "@mui/system";
 import { Box, Button, Card, CardContent, CardMedia, Container, Typography } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
+import axios from "axios";
 
 
 
@@ -27,6 +28,12 @@ export function StoreItem({ petId, petName, petPrice, petImage }: StoreItemProps
 
   // const { hideStoreItem,  } = useShoppingCart()
 
+  const pet ={
+    petId: petId,
+    petName : petName,
+    petPrice : petPrice,
+    petImage :petImage
+  }
 
 
   const {
@@ -41,12 +48,30 @@ export function StoreItem({ petId, petName, petPrice, petImage }: StoreItemProps
 
 
   const quantity = getItemQuantity(petId);
+  const token = localStorage.getItem("userEmail");
 
   const Style: any = {
     width: 300
   }
 
   const like = 0;
+
+  const handleFavourite = (id : any) => {
+   
+    const list ={
+      id: id,
+      sessionToken: token,
+    }
+    console.log("Favourite items"); 
+    console.log(pet); 
+    axios.post(`http://localhost:8080/favouriteList/addToFavouriteList/${id}/${token}`, list).then((res: { data: any }) => {
+     
+    console.log(res.data);
+      alert("favourite added successfully")
+  });
+  wishlistIncrease(id);
+    
+  }
 
   return (
 
@@ -108,7 +133,7 @@ export function StoreItem({ petId, petName, petPrice, petImage }: StoreItemProps
             </div>
             <div className="row">
           {like === 0 && (
-            <Button className='favouriteDiv' onClick={() => wishlistIncrease(petId)}  variant="text" size="large" color='error'>
+            <Button className='favouriteDiv' onClick={() => handleFavourite(petId)}  variant="text" size="large" color='error'>
            <FavoriteIcon></FavoriteIcon>
             </Button>
           )}

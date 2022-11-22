@@ -1,79 +1,68 @@
-import { Button, Card, CardActions, CardContent, CardMedia, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, Typography } from '@mui/material';
-import * as React from 'react';
-import JsonData from './data.json';
-import '../App.css';
+import {  Offcanvas, Stack } from "react-bootstrap"
+import { useShoppingCart } from "../context/ShoppingCartContext"
+import { formatCurrency } from "../utilities/formatCurrency"
+import { CartItem } from "./CartItem"
+import { FavouriteItem } from "./FavouriteItem"
+import storeItems from "../data/items.json"
+import { useEffect, useState } from "react"
+import axios from "axios"
+import Card from '@mui/material/Card';
+import { useNavigate } from "react-router-dom"
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
+
+type ShoppingCartProps = {
+  isOpen: boolean
+}
+
+export function Favourites() {
+  const { closeCart, wishItems } = useShoppingCart()
+  const [pets, setPets] = useState<any[]>([]);
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem("wishItem");
+  const [status,setStatus] = useState(true);
+
+   useEffect(() => {
+
+    if(token == null){
+      setStatus(false)
+    }
+      axios.get('http://localhost:8080/pet/getAllPets').then((response) => {
+        console.log("response")
+         setPets(response.data);
+         console.log(pets);
+      });
+   }, []);
+
+   const checkout:any= () =>{
+    navigate("/order")
+  }
 
 
-
-export default function Favourites() {
-  const [sortBy, setSortBy] = React.useState('');
-
-  const handleChange = (event: SelectChangeEvent) => {
-    setSortBy(event.target.value);
-  };
-
-  // const DisplayData= JsonData.map(
-  //   (info: any) => {
-  //     return (
-  //       <tr>
-  //         <td>
-  //           <Card>
-  //             <CardMedia
-  //               component="img"
-  //               image={info.img}
-  //             >
-  //             </CardMedia>
-  //             <CardContent>
-
-  //               <Typography gutterBottom variant="h5" component="div">
-  //                 {info.name}
-  //               </Typography>
-  //               <Typography variant="body2" color="text.secondary">
-  //                 {info.city}
-  //               </Typography>
-  //             </CardContent>
-  //             <CardActions>
-  //               <Button size="small" color='success'>Add to cart</Button>
-  //               <Button size="small" color='error'>Remove</Button>
-  //             </CardActions>
-  //           </Card>
-  //         </td>
-  //       </tr>
-  //     )
-
-  //   }
-  // )
 
 
   return (
-    <div>
-      <br /><br /><br />
+    <Card className="mainContainer">
+      <CardContent>
+        <Typography gutterBottom variant="h5" component="div">
+        Cart
+        </Typography>
+        {!token && <Typography>
+          <h3>Favourite list is empty...</h3>
+        </Typography>}
+        <Stack >
+          {wishItems.map((item) => (
+            <FavouriteItem {...item} />
+          ))}
+        
+        </Stack>
 
-      <div style={{ "float": "right" }}>
-        <FormControl sx={{ m: 1, minWidth: 120 }} size="small" >
-          <InputLabel id="demo-simple-select-label">Sort By</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={sortBy}
-            autoWidth
-            label="Sort By"
-            onChange={handleChange}
-          >
-            <MenuItem value={'Food'}>Food</MenuItem>
-            <MenuItem value={'Pet'}>Pet</MenuItem>
-            <MenuItem value={'Accessories'}>Accessories</MenuItem>
-          </Select>
-        </FormControl>
-      </div>
-      <br /><br /><br />
-      <div>
-        <table className="table" >
-          <tbody className="showProducts">
-            {/* {DisplayData} */}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  );
+      </CardContent>
+    </Card>
+  )
 }
+
