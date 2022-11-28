@@ -16,11 +16,16 @@ export function FavouriteItem({ id }: CartItemProps) {
   const [pets, setPets] = useState<any[]>([]);
   const [status, setStatus] = useState(true);
   const token: any = localStorage.getItem("wishItem");
+  const userEmail = localStorage.getItem("userEmail")
 
   useEffect(() => {
-    axios.get('http://localhost:8080/pet/getAllPets').then((response) => {
+    axios.get(`http://localhost:8080/favouriteList/getFavouriteList/${userEmail}`).then((response) => {
       console.log("response")
-      setPets(response.data);
+      console.log(response.data[0]);
+      
+        setPets(response.data);
+      
+      
       console.log(pets);
     });
     

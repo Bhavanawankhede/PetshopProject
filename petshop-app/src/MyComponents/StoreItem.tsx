@@ -55,17 +55,18 @@ export function StoreItem({ petId, petName, petPrice, petImage }: StoreItemProps
   }
 
   const like = 0;
+  const favouriteId = localStorage.getItem("favouriteId");
 
   const handleFavourite = (id : any) => {
    
     const list ={
-      id: id,
-      sessionToken: token,
+      petId:id,
+      userEmail: token,
     }
     console.log("Favourite items"); 
-    console.log(pet); 
+    console.log(list); 
     axios.post(`http://localhost:8080/favouriteList/addToFavouriteList/${id}/${token}`, list).then((res: { data: any }) => {
-     
+     console.log("Backend data entry")
     console.log(res.data);
       alert("favourite added successfully")
   });
