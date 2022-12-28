@@ -110,11 +110,28 @@ img{
 .ShowDogs{
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
-  gap: 15px;
+  gap: 10px;
+}
+
+.ShowPetCategory {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 80px;
 }
 
 .mainContainer{
   padding-top: 200px;
+}
+.mainContainer1{
+  padding-top: 35px;
+}
+.mainContainer2 {
+  padding-top: 100px;
+  padding-left: 55px;
+}
+
+.mainContainer3 {
+  padding-top: 100px;
 }
 
 .btn-add-delete{
@@ -143,12 +160,51 @@ padding-right: 30px;
   padding-left: 200px;
 }
 
+
 .innerDiv{
   padding-right: 30px;
 }
 
+.petCategoryShowNow{
+  margin-top: 10px;
+  margin-bottom: -30px;
+}
 
+.signUpContainer{
+  padding-left: 70px;
+}
 
+.itemTitle{
+  font-size: medium;
+  font-weight: bold;
+}
+.itemPrice{
+  font-size: small;
+  font-weight: 500;
+}
+.itemDescription{
+  font-size: small;
+  font-weight: 400;
+}
+.my-3{
+  text-align: center;
+  
+}
 
+.petSelect{
+  width: 300px;
+  float: right;
+}
 
+.inputlabel{
+  font-size: 30px !important;
+  color:#00134d !important;
+}
 
+.h3Tag{
+  color:#7575a3;
+}
+
+.selectLanguage{
+  padding-left: 20px;
+}

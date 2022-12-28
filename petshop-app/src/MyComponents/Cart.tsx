@@ -1,9 +1,9 @@
 import { Container } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { StoreFavouriteItem } from "./StoreFavouriteItem";
+import { StoreCartItem } from "./StoreCartItem";
 
-export function Favourites() {
+export function Cart() {
   const config = {
     headers: {
       "Access-Control-Allow-Origin": "*",
@@ -11,25 +11,25 @@ export function Favourites() {
     },
   };
 
-  const [favouriteItems, setFavouriteItems] = useState<any[]>([]);
+  const [cartItems, setCartItems] = useState<any[]>([]);
   const email = localStorage.getItem("userEmail");
 
   useEffect(() => {
     axios
       .get(
-        `http://localhost:8080/favouriteList/getFavouriteList/${email}`,
+        `http://localhost:8080/cartList/getCartList/${email}`,
         config
       )
       .then((response) => {
         console.log(response.data);
-        setFavouriteItems(response.data);
+        setCartItems(response.data);
       });
   }, []);
-  const DisplayData = favouriteItems.map((favouriteItem) => {
+  const DisplayData = cartItems.map((cartItem) => {
     return (
       <tr>
         <td>
-          <StoreFavouriteItem {...favouriteItem} />
+          <StoreCartItem {...cartItem} />
         </td>
       </tr>
     );

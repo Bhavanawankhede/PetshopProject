@@ -26,6 +26,7 @@ type ShoppingCartContext = {
   getItemQuantity: (id: number) => number
   increaseCartQuantity: (id: number) => void
   wishlistIncrease: (id: any) => void
+  wishlistDecrease: (id: any) => void
   decreaseCartQuantity: (id: number) => void
   removeFromCart: (id: number) => void
   // hideStoreItem: () => void
@@ -103,10 +104,6 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
 
   function wishlistIncrease(id: any) {
     console.log("wishlist items");
-  //   axios.post(`http://localhost:8080/favouriteList/addToFavouriteList/${petId}/${petId}`, pet).then((res: { data: any }) => {
-  //     console.log(res.data);
-  //     alert("favourite added successfully")
-  // });
     setWishItems(WishItem => {
       if (WishItem.find(item => item.id === id) == null) {
         return [...WishItem, { id, like: 1 }]
@@ -116,6 +113,25 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
             return item  //error
           } else {
             return item
+          }
+        })
+      }
+    })
+    localStorage.setItem("favouriteId",id);
+    console.log(wishItems);
+  }
+
+  function wishlistDecrease(id: any) {
+    console.log("wishlist items");
+    setWishItems(WishItem => {
+      if (WishItem.find(item => item.id === id)?.like === 1) {
+        return WishItem.filter(item => item.id !== id)
+      } else {
+        return WishItem.map(item => {
+          if (item.id === id) {
+            return {...id, like: id.like - 1}
+          } else {
+            return id
           }
         })
       }
@@ -151,6 +167,7 @@ export function ShoppingCartProvider({ children }: ShoppingCartProviderProps) {
         getItemQuantity,
         increaseCartQuantity,
         wishlistIncrease,
+        wishlistDecrease,
         decreaseCartQuantity,
         removeFromCart,
         openCart,

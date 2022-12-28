@@ -1,90 +1,79 @@
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import { useShoppingCart } from "../context/ShoppingCartContext";
 import { formatCurrency } from "../utilities/formatCurrency";
-import AddShoppingCartSharpIcon from "@mui/icons-material/AddShoppingCartSharp";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import "../App.css";
-import { useState } from "react";
-import { display } from "@mui/system";
 import {
   Box,
   Button,
   Card,
   CardContent,
   CardMedia,
-  Container,
   Typography,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import axios from "axios";
+import AddShoppingCartSharpIcon from "@mui/icons-material/AddShoppingCartSharp";
 import swal from "sweetalert";
+import { useEffect, useState } from "react";
 
-type StoreItemProps = {
+type StoreFavouriteItemProps = {
   itemId: number;
-  categoryName: string;
   itemName: string;
   itemPrice: number;
-  itemDescription: string;
   itemImage: string;
+  itemDescription: string;
 };
 
-export function StoreItem({
+export function StoreFavouriteItem({
   itemId,
-  categoryName,
   itemName,
   itemPrice,
-  itemDescription,
   itemImage,
-}: StoreItemProps) {
-  const pet = {
-    itemId: itemId,
-    categoryName: categoryName,
-    itemName: itemName,
-    itemPrice: itemPrice,
-    itemDescription: itemDescription,
-    itemImage: itemImage,
-  };
-
-  const {
-    getItemQuantity,
-    increaseCartQuantity,
-    wishlistIncrease,
-    decreaseCartQuantity,
-    removeFromCart,
-  } = useShoppingCart();
-
-  const quantity = getItemQuantity(itemId);
+  itemDescription,
+}: StoreFavouriteItemProps) {
   const token = localStorage.getItem("userEmail");
- 
+  const navigate = useNavigate();
 
   const Style: any = {
     width: 300,
   };
 
+  const config = {
+    headers: {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "GET,PUT,POST,DELETE,PATCH,OPTIONS",
+    },
+  };
+
+  const {
+    getItemQuantity,
+    increaseCartQuantity,
+    decreaseCartQuantity,
+    removeFromCart,
+    wishlistDecrease,
+  } = useShoppingCart();
+
   const like = 0;
 
-  const handleFavourite = (id: any) => {
-    const list = {
-      id: id,
-      sessionToken: token,
-    };
-    console.log("Favourite items");
-    console.log(pet);
+  const quantity = getItemQuantity(itemId);
+  const email = localStorage.getItem("userEmail");
 
+  const removeFavourite = (itemId: any) => {
     axios
-      .post(
-        `http://localhost:8080/favouriteList/addToFavouriteList/${id}/${token}`,
-        list
+      .get(
+        `http://localhost:8080/favouriteList/getFavouriteItemIdFromItemId/${itemId}`,
+        config
       )
-      .then((res: { data: any }) => {
-        console.log(res.data);
-        swal({
-          title: "Added to favourites",
-          icon: "success",
-          timer: 2000,
-        });
+      .then((response) => {
+        console.log(response.data.id);
+        axios
+          .delete(
+            `http://localhost:8080/favouriteList/removeFavouriteItem/${response.data.id}/${email}`
+          ).then((response) => {
+            window.location.reload();
+          });
       });
-    wishlistIncrease(id);
+      wishlistDecrease(itemId);
   };
 
   const handleCart = (id: any) => {
@@ -92,8 +81,6 @@ export function StoreItem({
       id: id,
       sessionToken: token,
     };
-    console.log("Cart items");
-    console.log(pet);
 
     axios
       .post(`http://localhost:8080/cartList/addToCartList/${id}/${token}`, list)
@@ -138,18 +125,14 @@ export function StoreItem({
               )}
             </div>
 
-            <div className="row">
-              {like === 0 && (
-                <Button
-                  className="favouriteDiv"
-                  onClick={() => handleFavourite(itemId)}
-                  variant="text"
-                  size="large"
-                  color="error"
-                >
-                  <FavoriteIcon></FavoriteIcon>
-                </Button>
-              )}
+            <div>
+              <Button
+                onClick={() => removeFavourite(itemId)}
+                variant="text"
+                size="large"
+              >
+                Remove
+              </Button>
             </div>
           </div>
         </CardContent>

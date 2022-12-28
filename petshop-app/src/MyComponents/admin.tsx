@@ -1,99 +1,115 @@
-import { Button } from '@mui/material';
-import React, { useEffect, useState } from 'react'
-import { useNavigate } from 'react-router-dom';
-import AllPetFood from './AllPetFood';
-import AllPets from './AllPets';
-import AllUsers from './AllUsers';
-import '../App.css';
+import { Button } from "@mui/material";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import "../App.css";
+import ItemsForAdmin from "./ItemsForAdmin";
+import ItemCategories from "./ItemCategories";
+import Users from "./Users";
+import axios from "axios";
 
+type Props = {};
 
-type Props = {}
-
-export default function Admin({ }: Props) {
-
+export default function Admin({}: Props) {
   const navigate = useNavigate();
 
   const [showUser, setShowUser] = useState(true);
-  const [showPets, setShowPets] = useState(false);
-  const [showPetFood, setShowPetFood] = useState(false);
+  const [ShowItemCategory, setShowItemCategory] = useState(false);
+  const [showItems, setShowItems] = useState(false);
 
-
-
+  const [token, setToken] = useState(sessionStorage.getItem("token_ADMIN"));
+  axios.defaults.headers.common["Authorization"] = "Bearer " + token;
 
   useEffect(() => {
-    const token = localStorage.getItem('userEmail');
+    let header = {
+      headers: {
+        Authorization: "Bearer" + token,
+      },
+    };
 
-    var loggedin = false;
+    let loggedin = false;
     if (token == null) {
       loggedin = true;
     }
     if (loggedin == true) {
-      navigate('/home');
+      navigate("/home");
     }
-
-  })
+  });
 
   const formWidth = {
-    width: 400
-  }
+    width: 400,
+  };
 
   const showUserData = () => {
     setShowUser(true);
-    setShowPets(false);
-    setShowPetFood(false);
-  }
+    setShowItemCategory(false);
+    setShowItems(false);
+  };
 
-  const showAllPetsData = () => {
+  const showAllItemCategoryData = () => {
     setShowUser(false);
-    setShowPets(true);
-    setShowPetFood(false);
-  }
+    setShowItemCategory(true);
+    setShowItems(false);
+  };
 
-  const showAllPetFoodData = () => {
+  const showAllItemData = () => {
     setShowUser(false);
-    setShowPets(false);
-    setShowPetFood(true);
-  }
-
+    setShowItemCategory(false);
+    setShowItems(true);
+  };
 
   return (
     <>
       <div className="outerDiv">
-        <div className="mainContainer" style={formWidth} >
+        <div className="mainContainer" style={formWidth}>
           <table>
-            <tr >
+            <tr>
               <td>
-                <Button className='rows' variant="contained" size="large" fullWidth onClick={showUserData}>All Users</Button>
+                <Button
+                  className="rows"
+                  variant="contained"
+                  size="large"
+                  fullWidth
+                  onClick={showUserData}
+                >
+                  Users
+                </Button>
               </td>
             </tr>
 
             <tr>
               <td>
-                <Button className='rows' variant="contained" size="large" fullWidth onClick={showAllPetsData}>All pets</Button>
+                <Button
+                  className="rows"
+                  variant="contained"
+                  size="large"
+                  fullWidth
+                  onClick={showAllItemCategoryData}
+                >
+                  Item Categories
+                </Button>
               </td>
             </tr>
             <tr>
               <td>
-                <Button className='rows' variant="contained" size="large" fullWidth onClick={showAllPetFoodData}>All Pet Food</Button>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <Button className='rows' variant="contained" size="large" fullWidth>Pet Accessories</Button>
+                <Button
+                  className="rows"
+                  variant="contained"
+                  size="large"
+                  fullWidth
+                  onClick={showAllItemData}
+                >
+                  Items
+                </Button>
               </td>
             </tr>
           </table>
-
-
-
         </div>
         <div>
-          {showUser && <AllUsers />}
-          {showPets && <AllPets />}
-          {showPetFood && <AllPetFood />}
+          {showUser && <Users />}
+          {ShowItemCategory && <ItemCategories />}
+          {showItems && <ItemsForAdmin />}
         </div>
       </div>
     </>
-
-  )
+  );
 }

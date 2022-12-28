@@ -9,8 +9,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { StoreItemCategory } from "./StoreItemCategory";
 import { useNavigate } from "react-router-dom";
-import { useTranslation } from "react-i18next";
-import { t } from "i18next";
 
 const images = [
   {
@@ -49,10 +47,6 @@ export default function Home() {
   const [token] = useState(sessionStorage.getItem("token_ADMIN"));
   const navigate = useNavigate();
 
-  /////////////////////////////Internalization/////////////////////////////////////////////////
-  const { t } = useTranslation(['home', 'main']);
-
-
   useEffect(() => {
     if (token == null) {
       navigate("/home");
@@ -88,13 +82,10 @@ export default function Home() {
         showBullets={true}
         showNavs={true}
       />
-
-      {/************************************************  Internationalization *************************************/}
-
       <Box sx={{ padding: 3 }}>
         <Typography variant="h4" gutterBottom>
           <p id="CategoryId"></p>
-          {t("homePetcategory", { ns: ['main', 'home'] })}
+          Pet Categeories
         </Typography>
         <Container>
           <table className="table">
@@ -107,10 +98,16 @@ export default function Home() {
 
         <Box display={"flex"} sx={{ paddingTop: 5 }}>
           <Card sx={{ maxWidth: 1260 }}>
-            <Typography variant="h4">{t("homeHeading1", { ns: ["main", "home"] })}</Typography>
+            <Typography variant="h4">Best Quality Pet Products</Typography>
             <br />
             <Typography color={"#827f85"}>
-              {t("homeDescription1", { ns: ["home","main"]})}
+              Best online pet store for all your pet supplies and pet products.
+              Buy pet essentials online at Pawsindia. Shop For Interactive pet
+              toys, dog foods, dog toys, cat toys & Much more.Free and Fast
+              shipining in All Over India. We care about the well-being of all
+              pets, and as a socially conscious company, asiapets.in proudly
+              sponsors a donations program to help animals in need. We also
+              offer a selection of safe supplements, toys, and supplies.
             </Typography>
           </Card>
 

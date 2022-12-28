@@ -29,7 +29,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   
 }));
 
-export default function AllUsers() {
+export default function Users() {
     const [users, setUsers] = useState<any[]>([]);
 
     useEffect(() => {

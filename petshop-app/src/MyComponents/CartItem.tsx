@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import { Stack } from "react-bootstrap"
 import { Navigate, useNavigate } from "react-router-dom"
 import { useShoppingCart } from "../context/ShoppingCartContext"
-import storeItems from "../data/items.json"
 import { formatCurrency } from "../utilities/formatCurrency"
 import Button from '@mui/material/Button';
 

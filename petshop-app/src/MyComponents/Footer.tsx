@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   AiFillFacebook,
   AiFillTwitterCircle,
@@ -10,8 +11,10 @@ import { FaGooglePlay } from "react-icons/fa";
 import "./footerStyle.css";
 
 export const Footer = () => {
+
+  const { t } = useTranslation(['home', 'main']);
   return (
-    <Box sx={{ paddingTop: 1 }}>
+    <Box sx={{ paddingTop: 1}}>
       <div className="footer">
         <div>
           <div className="footer-content">
@@ -21,33 +24,33 @@ export const Footer = () => {
                 fontSize: "2em"
               }}
             >
-              Pet Store
+              {t("footerPetstore", { ns: ["home","main"]})}
             </h3>
-            <p>Pet Store is a registered company under Abc Tech Pvt. Ltd.</p>
+            <p>{t("footerLine1", { ns: ["home","main"]})}</p>
             <div className="sub">
               <div>
-                <b>Company</b>
-                <p>About</p>
-                <p>Blog</p>
+                <b>{t("footerLine2", { ns: ["home","main"]})}</b>
+                <p>{t("footerLine3", { ns: ["home","main"]})}</p>
+                <p>{t("footerLine4", { ns: ["home","main"]})}</p>
               </div>
               <div>
-                <b>For Pet Lovers</b>
-                <p>Code of conduct</p>
-                <p>Community</p>
+                <b>{t("footerLine5", { ns: ["home","main"]})}</b>
+                <p>{t("footerLine6", { ns: ["home","main"]})}</p>
+                <p>{t("footerLine7", { ns: ["home","main"]})}</p>
               </div>
               <div>
-                <b>For Pet Owners</b>
-                <p>Food</p>
-                <p>Accessories</p>
+                <b>{t("footerLine8", { ns: ["home","main"]})}</b>
+                <p>{t("footerLine9", { ns: ["home","main"]})}</p>
+                <p>{t("footerLine10", { ns: ["home","main"]})}</p>
               </div>
               <div>
-                <b>For You</b>
-                <p>Privacy</p>
-                <p>Security</p>
-                <p>Terms</p>
+                <b>{t("footerLine11", { ns: ["home","main"]})}</b>
+                <p>{t("footerLine12", { ns: ["home","main"]})}</p>
+                <p>{t("footerLine13", { ns: ["home","main"]})}</p>
+                <p>{t("footerLine14", { ns: ["home","main"]})}</p>
               </div>
               <div>
-                <b>Social links</b>
+                <b>{t("footerLine15", { ns: ["home","main"]})}</b>
                 <div>
                   <AiFillFacebook />
                   <AiFillTwitterCircle />

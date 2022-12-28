@@ -18,7 +18,7 @@ import PetsIcon from '@mui/icons-material/Pets';
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from '@mui/material/AppBar';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
-import { Divider, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, useTheme } from '@mui/material';
+import { Divider, Drawer, FormControl, InputLabel, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Select, useTheme } from '@mui/material';
 import FacebookIcon from '@mui/icons-material/Facebook';
 import InstagramIcon from '@mui/icons-material/Instagram';
 import GoogleIcon from '@mui/icons-material/Google';
@@ -37,6 +37,8 @@ import { useEffect, useState } from 'react';
 import LogoutIcon from '@mui/icons-material/Logout';
 import { isVisible } from '@testing-library/user-event/dist/utils';
 import '../App.css';
+import i18n from '../i18n';
+import { useTranslation } from 'react-i18next';
 
 
 
@@ -129,7 +131,15 @@ export default function PrimarySearchAppBar() {
 
   const { openCart, cartQuantity } = useShoppingCart()
   const { openWish, wishQuantity } = useShoppingCart()
-  // const {hideStoreItem,} = useShoppingCart()
+
+  ////////////////////////// Internationalization //////////////////////////////////////
+
+  const onClickLanguageChange = (e: any) => {
+    const language = e.target.value;
+    i18n.changeLanguage(language); //change the language
+  }
+
+  const { t } = useTranslation(['home', 'main']);
 
   const handleProfileMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -160,7 +170,7 @@ export default function PrimarySearchAppBar() {
   const showOpenCart = () => {
     if (isLoggedIn) {
       openCart();
-      navigate('/shoppingCart');
+      navigate('/cart');
     }
     else {
       openCart();
@@ -177,7 +187,7 @@ export default function PrimarySearchAppBar() {
       openWish();
       navigate('/login')
     }
-   
+
   }
 
 
@@ -226,9 +236,9 @@ export default function PrimarySearchAppBar() {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      {!isLoggedIn && <MenuItem onClick={handleMenuClose}><LoginIcon />Login</MenuItem>}
-      {!isLoggedIn && <MenuItem onClick={handleMenuClose}><LoginIcon />Register</MenuItem>}
-      {isLoggedIn && <MenuItem onClick={logoutBtn}><LoginIcon />Logout</MenuItem>}
+      {!isLoggedIn && <MenuItem onClick={handleMenuClose}><LoginIcon />{t("homeLogin", { ns: ['main', 'home'] })}</MenuItem>}
+      {!isLoggedIn && <MenuItem onClick={handleMenuClose}><LoginIcon />{t("homeRegister", { ns: ['main', 'home'] })}</MenuItem>}
+      {isLoggedIn && <MenuItem onClick={logoutBtn}><LoginIcon />{t("homeLogout", { ns: ['main', 'home'] })}</MenuItem>}
     </Menu>
   );
 
@@ -286,7 +296,7 @@ export default function PrimarySearchAppBar() {
           <PetsIcon></PetsIcon>
           <Button variant="text" href="/home" sx={{ color: 'white' }}>
             <Typography variant="h6" component="div" textAlign={'center'}>
-              Pet Store
+              {t("homePetStore", { ns: ['main', 'home'] })}
             </Typography>
           </Button>
           <Drawer
@@ -311,43 +321,19 @@ export default function PrimarySearchAppBar() {
             <List>
               {/* {['Dog', 'Cat', 'Aquarium pets', 'Small Pets' , 'Birds' , 'Login'].map((text, index) => ( */}
               <ListItem disablePadding>
-                <ListItemButton component="a" href="/dog">
-                  {/* <ListItemButton>
-              <Nav.Link to="dog" as={NavLink}>
-            Dog
-          </Nav.Link> */}
-                  <ListItemText primary={"Dog"} />
+                <ListItemButton component="a" href="#petCategoryId">
+                  <ListItemText primary={t("navbarPets", { ns: ['main', 'home'] })} />
                 </ListItemButton>
               </ListItem>
               {/* ))} */}
               <ListItem disablePadding>
-                <ListItemButton component="a" href="#">
-                  <ListItemText primary={"Cat"} />
+                <ListItemButton component="a" href="#petFoodsId">
+                  <ListItemText primary={t("navbarPetfood", { ns: ['main', 'home'] })} />
                 </ListItemButton>
               </ListItem>
               <ListItem disablePadding>
-                <ListItemButton component="a" href="#">
-                  <ListItemText primary={"Birds"} />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton component="a" href="#">
-                  <ListItemText primary={"Aquerium  Pets"} />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton component="a" href="#">
-                  <ListItemText primary={"About Us"} />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton component="a" href="/home">
-                  <ListItemText primary={"Home"} />
-                </ListItemButton>
-              </ListItem>
-              <ListItem disablePadding>
-                <ListItemButton component="a" href="/admin">
-                  <ListItemText primary={"Admin"} />
+                <ListItemButton component="a" href="#petAccessoriesId">
+                  <ListItemText primary={t("navbarPetaccessories", { ns: ['main', 'home'] })} />
                 </ListItemButton>
               </ListItem>
               <ListItem>
@@ -390,15 +376,17 @@ export default function PrimarySearchAppBar() {
               <AccountCircle />
             </IconButton>
           </Box>
-         
+
+          {/* /////////////////////////CODE FOR CART BUTTON/////////////////////////// */}
+
           {cartQuantity > 0 && (
-      <Button
+            <Button
               onClick={showOpenCart}
               style={{ width: "3rem", height: "3rem", position: "relative" }}
               className="rounded-circle"
             >
 
-            <AddShoppingCartSharpIcon sx={{ color: 'white' }} fontSize="large"></AddShoppingCartSharpIcon>
+              <AddShoppingCartSharpIcon sx={{ color: 'white' }} fontSize="large"></AddShoppingCartSharpIcon>
 
               <div
                 className="rounded-circle bg-danger d-flex justify-content-center align-items-center"
@@ -418,13 +406,13 @@ export default function PrimarySearchAppBar() {
 
           {/* /////////////////////////CODE FOR FAVOURITE BUTTON/////////////////////////// */}
           {wishQuantity > 0 && (
-      <Button
+            <Button
               onClick={showOpenWish}
               style={{ width: "3rem", height: "3rem", position: "relative" }}
-             
+
             >
 
-            <FavoriteIcon sx={{ color: 'white' }} fontSize="large"></FavoriteIcon>
+              <FavoriteIcon sx={{ color: 'white' }} fontSize="large"></FavoriteIcon>
 
               <div
                 className="rounded-circle bg-danger d-flex justify-content-center align-items-center"
@@ -441,12 +429,12 @@ export default function PrimarySearchAppBar() {
               </div>
             </Button>
           )}
-         
-         
+
+
           {/* <Box className='favouriteBtn'>
             <FavoriteIcon sx={{ color: 'white' }} fontSize="medium"></FavoriteIcon>
           </Box> */}
-          
+
           <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -463,13 +451,26 @@ export default function PrimarySearchAppBar() {
             {/* { isLoggedIn && <Button variant='text' href="/logout" sx={{color: 'white'}}  {...showLogoutBtn}><LogoutIcon/></Button>} */}
             {/* <Link to="/logout">Logout</Link> */}
           </Box>
+        <Box className="selectLanguage">
+          <FormControl>
+            <Select
+              style={{ width: 200 , backgroundColor: "white" }} onChange={onClickLanguageChange} defaultValue="en"
+            >
+              <MenuItem value="en" >English</MenuItem>
+              <MenuItem value="hn">Hindi</MenuItem>
+              <MenuItem value="ur">Urdu</MenuItem>
+            </Select>
+          </FormControl>
+          </Box>
         </Toolbar>
+
       </AppBar>
       {renderMobileMenu}
       {renderMenu}
 
+
       {/* {showLogoutIcon} */}
-    </Box>
+    </Box >
   );
 }
 
