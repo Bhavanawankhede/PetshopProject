@@ -192,12 +192,14 @@ padding-right: 30px;
 }
 
 .petSelect{
-  width: 300px;
+  width: 200px;
   float: right;
+padding: 0.2px;
+  
 }
 
 .inputlabel{
-  font-size: 30px !important;
+  font-size: 25px !important;
   color:#00134d !important;
 }
 
@@ -207,4 +209,14 @@ padding-right: 30px;
 
 .selectLanguage{
   padding-left: 20px;
+}
+
+.paddingClass{
+  align-content: flex-end;
+}
+
+.spanSelect{
+  float: right;
+  padding: 10px;
+
 }

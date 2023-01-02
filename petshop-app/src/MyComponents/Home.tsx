@@ -89,7 +89,7 @@ export default function Home() {
         showNavs={true}
       />
 
-      {/************************************************  Internationalization *************************************/}
+      {/**************************************  Internationalization *************************************/}
 
       <Box sx={{ padding: 3 }}>
         <Typography variant="h4" gutterBottom>
