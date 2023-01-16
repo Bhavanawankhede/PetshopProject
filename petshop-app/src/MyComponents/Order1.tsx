@@ -44,6 +44,7 @@ export default function Order1() {
         payment: ""
     })
     const navigate = useNavigate();
+    
 
     useEffect(() => {
         axios.get(`http://localhost:8080/cartList/getCartList/${userEmail}`).then((response) => {
@@ -72,7 +73,8 @@ export default function Order1() {
         cartItems: cartItems,
         total: calculatePrice(),
         address: address,
-        payment: payment
+        payment: payment,
+        userEmail: userEmail
 
     }
 
