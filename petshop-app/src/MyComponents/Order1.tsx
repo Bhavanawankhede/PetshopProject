@@ -13,6 +13,7 @@ import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEve
 import '../App.css';
 import Textarea from '@mui/joy/Textarea';
 import { Navigate, useNavigate } from 'react-router-dom';
+import { SocketAddress } from 'net';
 
 
 const StyledTableCell: any = styled(TableCell)(({ theme }) => ({
@@ -36,23 +37,22 @@ export default function Order1() {
     const [cartItems, setCartItems] = useState<any[]>([]);
     const userEmail = localStorage.getItem("userEmail");
     const [count, setCount] = useState(1);
+    const [address, setAddress] = useState();
+    const [payment, setPayment] = useState('');
+    const [errorValues, setErrorValues] = useState({
+        address: "",
+        payment: ""
+    })
     const navigate = useNavigate();
 
     useEffect(() => {
         axios.get(`http://localhost:8080/cartList/getCartList/${userEmail}`).then((response) => {
-            console.log("response")
             setCartItems(response.data);
             console.log("CartItems are....")
             console.log(cartItems);
         });
-    });
-
-    // const orderDetails = {
-    //     cartItems:cartItems,
-
-    // }
-
-
+        setPayment("selectmethod")
+    }, [errorValues]);
 
     const styleTable = {
         width: 900
@@ -68,27 +68,53 @@ export default function Order1() {
         return total;
     }
 
-    const [selectValue, setSelectValue] = useState('');
+    const orderDetails = {
+        cartItems: cartItems,
+        total: calculatePrice(),
+        address: address,
+        payment: payment
+
+    }
+
+    const handleAddress = (e: any) => {
+        setAddress(e.target.value)
+    }
 
     const handleChange = (event: SelectChangeEvent) => {
-        setSelectValue(event.target.value as string);
+        setPayment(event.target.value as string);
     };
 
     const handleSubmit = () => {
-        // axios
-        //     .post("http://localhost:8080/user/addUser", cartItems)
-        //     .then((res: { data: any }) => {
-        //        console.log(res.data)
-        //     });
 
-        // axios
-        //     .delete(
-        //         `http://localhost:8080/itemCategory/deleteItemCategory/${itemCategoryId}`
-        //     )
-        //     .then((response) => {
-        //         navigate('/orderNext');
-        //     });
-        navigate('/orderNext');
+        setErrorValues(validate(address, payment));
+        if (Object.keys(errorValues).length === 0) {
+            // axios
+            //     .post("http://localhost:8080/user/addUser", orderDetails)
+            //     .then((res: { data: any }) => {
+            //        console.log(res.data)
+            //     });
+
+            // axios
+            //     .delete(
+            //         `http://localhost:8080/itemCategory/deleteItemCategory/${itemCategoryId}`
+            //     )
+            //     .then((response) => {
+            //         navigate('/orderNext');
+            //     });
+            console.log("Order details are....................")
+            console.log(orderDetails)
+            // navigate('/orderNext');
+        }
+
+    }
+
+    const validate = (address: any, payment: any) => {
+        const errors: any = {};
+        if (address === undefined)
+            errors.address = "Enter address"
+        if (payment === "selectmethod")
+            errors.payment = "Select Payment Method!!!!"
+        return errors;
 
     }
 
@@ -118,15 +144,15 @@ export default function Order1() {
                 </Table>
             </TableContainer>
             <h3>Total: ${calculatePrice()} </h3>
-            <h2>Address:    </h2>
-            <Textarea minRows={5} className="textareaClass" variant="outlined" />
-            <br />
-
+            <h2 >Address:    </h2>
+            <Textarea minRows={5} className="textareaClass" variant="outlined" value={address} onChange={handleAddress} />
+            <p className="ErrorClass">{errorValues.address}</p>
             <h2>Payment Method</h2>
             <FormControl className="paymentSelect" >
                 <Select
-                    onChange={handleChange}
                     defaultValue="selectmethod"
+                    onChange={handleChange}
+                    value={payment}
                 >
                     <MenuItem value="selectmethod">-Select Method-</MenuItem>
                     <MenuItem value="pod">Pay on Delivery</MenuItem>
@@ -135,11 +161,12 @@ export default function Order1() {
                     <MenuItem value="phonepay" >PhonePay</MenuItem>
                     <MenuItem value="other" >Other UPI</MenuItem>
                 </Select>
-            </FormControl><br /><br />
+            </FormControl>
+            <p className="ErrorClass">{errorValues.payment}</p>
             <div>
                 <Button onClick={handleSubmit} variant="contained" color="warning">Place Order</Button><br /><br />
                 <Button href="/cart" variant="contained" color="success" className="backButton">Back</Button>
             </div>
         </div>
     );
-}
+} 
