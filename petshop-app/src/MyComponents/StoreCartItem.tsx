@@ -111,7 +111,7 @@ export function StoreCartItem({
             <div className="itemDescription">{itemDescription}</div>
           </Typography>
           <div className="buttonDiv">
-            <div className="row">
+           {/*  <div className="row">
               <Button
                 className="row"
                 onClick={() => placeOrder(itemId)}
@@ -121,12 +121,13 @@ export function StoreCartItem({
                   style={{ color: "white" }}
                 ></AddShoppingCartSharpIcon>
               </Button>
-            </div>
+            </div> */}
             <div>
               <Button
                 onClick={() => removeCartItem(itemId)}
                 variant="text"
                 size="large"
+                color="error"
               >
                 {t("storeCartItemRemove", { ns: ['main', 'home'] })}
               </Button>

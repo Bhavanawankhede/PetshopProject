@@ -8,6 +8,9 @@ import Navbar from "./MyComponents/Navbar";
 import React, { Component, Suspense } from "react";
 
 import "./App.css";
+import Order1 from "./MyComponents/Order1";
+import Users from "./MyComponents/Users";
+
 
 
 
@@ -17,8 +20,12 @@ function App() {
   return (
     <div>
       <Navbar></Navbar>
+      {/* <Order1></Order1> */}
       <MainRoutes></MainRoutes>
       <Footer></Footer>
+      {/* <Demo></Demo> */}
+
+
     </div>
   );
 }

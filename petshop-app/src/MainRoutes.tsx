@@ -20,6 +20,9 @@ import EditItem from "./MyComponents/EditItem";
 import EditItemCategory from "./MyComponents/EditItemCategory";
 import ItemsForAdmin from "./MyComponents/ItemsForAdmin";
 import { Cart } from "./MyComponents/Cart";
+import Order1 from "./MyComponents/Order1";
+import ForgetPassword from "./MyComponents/ForgetPassword";
+import ChangePassword from "./MyComponents/ChangePassword";
 
 export default function MainRoutes() {
   const Test = () => <h1>Page Not Found 404 Error</h1>;
@@ -32,12 +35,14 @@ export default function MainRoutes() {
           <Route path="/item/:itemCategoryId" element={<Item />}></Route>
           <Route path="/login" element={<Login />}></Route>
           <Route path="/logout" element={<Logout />}></Route>
+          <Route path="/forget" element={<ForgetPassword />}></Route>
+          <Route path="/changePassword" element={<ChangePassword />}></Route>
           <Route path="/register" element={<Register />}></Route>
           <Route
             path="/shoppingCart"
             element={<ShoppingCart isOpen={true} />}
           ></Route>
-          <Route path="/order" element={<Order isOpen={true} />}></Route>
+          <Route path="/order" element={<Order1/>}></Route>
           <Route path="/orderNext" element={<OrderNext />}></Route>
           <Route path="/admin" element={<Admin />}></Route>
           <Route path="/users" element={<Users />}></Route>

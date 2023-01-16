@@ -83,29 +83,6 @@ img{
   color: red;
 }
 
-/* .price{
-  color: black;
-  font-size: 22px;
-}
-.row{
-  text-align: center;
-  padding-left: 40px;
-  padding-right: 20px;
-  ;
-}
-.column{
-  padding-left: 500px;
-  float: left;
-  width: 25%;
-  padding: 0 10px;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  margin: auto;
-  text-align: center;
-  font-family: arial;
-  background-color: burlywood;
-  height: auto;
-  
-} */
 
 .ShowDogs{
   display: grid;
@@ -220,3 +197,84 @@ padding: 0.2px;
   padding: 10px;
 
 }
+
+.textareaClass{
+  width: 300px;
+  height: 100px
+}
+
+.cartBox{
+  display: flex;
+}
+
+.paymentSelect{
+  width: 200px;
+}
+
+.tableContainerOrder{
+  padding-top: 100px;
+  padding-left: 300px;
+  
+
+}
+
+.box1{
+  display: flex;
+}
+
+.ErrorClass{
+  color:#db2269;
+  font-size:15px;
+  display: relative;
+}
+
+/* mobile view */
+ @media screen and (max-width: 425px ) {
+ 
+
+  .ShowPetCategory {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+  .ShowDogs{
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+ 
+}
+
+/* tablet view */
+@media screen and (min-width : 425px) and (max-width: 768px ) {
+  
+  .ShowPetCategory {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 80px;
+  }
+  .ShowDogs{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  
+} 
+
+/* desktop view */
+ @media screen and (min-width : 768px) {
+
+  .ShowPetCategory {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 80px;
+  }
+
+  .ShowDogs{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+  }
+  
+} 
+
+ 
+

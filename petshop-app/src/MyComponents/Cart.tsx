@@ -2,6 +2,7 @@ import { Container } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { StoreCartItem } from "./StoreCartItem";
+import { Button } from "@mui/material";
 
 export function Cart() {
   const config = {
@@ -39,7 +40,8 @@ export function Cart() {
     <Container>
       <table className="table">
         <tbody className="ShowDogs">{DisplayData}</tbody>
-      </table>
+      </table><br/><br/>
+      <Button color="warning" variant="contained" href="/order">Proceed to Buy</Button>
     </Container>
   );
 }

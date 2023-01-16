@@ -39,6 +39,7 @@ import { isVisible } from '@testing-library/user-event/dist/utils';
 import '../App.css';
 import i18n from '../i18n';
 import { useTranslation } from 'react-i18next';
+import axios from 'axios';
 
 
 
@@ -137,6 +138,12 @@ export default function PrimarySearchAppBar() {
   const onClickLanguageChange = (e: any) => {
     const language = e.target.value;
     i18n.changeLanguage(language); //change the language
+
+    // axios
+    //     .post("http://localhost:8080/user/addUser",language)
+    //     .then((res: { data: any }) => {
+        
+    //     });
   }
 
   const { t } = useTranslation(['home', 'main']);
@@ -152,6 +159,12 @@ export default function PrimarySearchAppBar() {
   const handleMenuClose = () => {
     setAnchorEl(null);
     navigate('/login')
+    handleMobileMenuClose();
+  };
+
+  const handleMenuCloseRegister = () => {
+    setAnchorEl(null);
+    navigate('/register')
     handleMobileMenuClose();
   };
 
@@ -237,7 +250,7 @@ export default function PrimarySearchAppBar() {
       onClose={handleMenuClose}
     >
       {!isLoggedIn && <MenuItem onClick={handleMenuClose}><LoginIcon />{t("homeLogin", { ns: ['main', 'home'] })}</MenuItem>}
-      {!isLoggedIn && <MenuItem onClick={handleMenuClose}><LoginIcon />{t("homeRegister", { ns: ['main', 'home'] })}</MenuItem>}
+      {!isLoggedIn && <MenuItem onClick={handleMenuCloseRegister}><LoginIcon />{t("homeRegister", { ns: ['main', 'home'] })}</MenuItem>}
       {isLoggedIn && <MenuItem onClick={logoutBtn}><LoginIcon />{t("homeLogout", { ns: ['main', 'home'] })}</MenuItem>}
     </Menu>
   );

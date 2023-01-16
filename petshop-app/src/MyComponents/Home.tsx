@@ -11,6 +11,7 @@ import { StoreItemCategory } from "./StoreItemCategory";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { t } from "i18next";
+import ".././App.css"
 
 const images = [
   {
@@ -86,8 +87,7 @@ export default function Home() {
         height={504}
         images={images}
         showBullets={true}
-        showNavs={true}
-      />
+        showNavs={true}      />
 
       {/**************************************  Internationalization *************************************/}
 
@@ -96,7 +96,7 @@ export default function Home() {
           <p id="CategoryId"></p>
           {t("homePetcategory", { ns: ['main', 'home'] })}
         </Typography>
-        <Container>
+        <Container className="showAllCategory">
           <table className="table">
             <tbody className="ShowPetCategory">{DisplayData}</tbody>
           </table>
@@ -105,7 +105,7 @@ export default function Home() {
         <br />
         <br />
 
-        <Box display={"flex"} sx={{ paddingTop: 5 }}>
+        <Box display={"flex"} sx={{ paddingTop: 5 }} className="petCategoryBox">
           <Card sx={{ maxWidth: 1260 }}>
             <Typography variant="h4">{t("homeHeading1", { ns: ["main", "home"] })}</Typography>
             <br />

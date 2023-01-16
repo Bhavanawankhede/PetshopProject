@@ -15,6 +15,7 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import AddShoppingCartSharpIcon from "@mui/icons-material/AddShoppingCartSharp";
 import swal from "sweetalert";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 type StoreFavouriteItemProps = {
   itemId: number;
@@ -57,6 +58,7 @@ export function StoreFavouriteItem({
 
   const quantity = getItemQuantity(itemId);
   const email = localStorage.getItem("userEmail");
+  const { t } = useTranslation(['home', 'main']);
 
   const removeFavourite = (itemId: any) => {
     axios
@@ -131,7 +133,9 @@ export function StoreFavouriteItem({
                 variant="text"
                 size="large"
               >
-                Remove
+                
+
+{t("storeCartItemRemove", { ns: ['main', 'home'] })}
               </Button>
             </div>
           </div>

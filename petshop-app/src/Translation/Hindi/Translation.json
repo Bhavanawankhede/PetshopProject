@@ -30,6 +30,9 @@
   "itemDescription" : "अपने प्यारे पालतू जानवरों के लिए सर्वोत्तम गुणवत्ता वाले उत्पाद प्राप्त करें।",
   "itemSort" : "क्रम से लगाना",
   "itemFilter" : "फ़िल्टर",
-  "storeCartItemRemove" : "हटाना"
+  "storeCartItemRemove" : "हटाना",
+  "itemSelect1" : "नाम से",
+  "itemSelect2" : "कीमत से- निम्न से उच्च",
+  "itemSelect3" : "कीमत से - उच्च से निम्न"
   
 }

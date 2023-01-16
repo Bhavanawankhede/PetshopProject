@@ -30,7 +30,11 @@
   "itemDescription" : "Get the Best Quality products for your loveable pets.",
   "itemSort" : "Sort",
   "itemFilter" : "Filter",
-  "storeCartItemRemove" : "Remove"
+  "storeCartItemRemove" : "Remove",
+  "itemSelect1" : "By Name",
+  "itemSelect2" : "By Price- Low to High",
+  "itemSelect3" : "By Price - High to Low"
+
 
   
               

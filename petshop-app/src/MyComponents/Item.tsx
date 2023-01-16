@@ -5,9 +5,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import { Box, Button, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent } from "@mui/material";
-import PetFood from './PetFood';
-import PetAccessories from './PetAccessories';
-import Pet from './Pet';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { useTranslation } from 'react-i18next';
 
@@ -229,9 +226,9 @@ export function Item() {
             onChange={handleChangeSort}
 
           >
-            <MenuItem value="name">By Name</MenuItem>
-            <MenuItem value="ltoh">By Price- Low to High</MenuItem>
-            <MenuItem value="htol" >By Price - High to Low</MenuItem>
+            <MenuItem value="name">{t("itemSelect1", { ns: ['main', 'home'] })}</MenuItem>
+            <MenuItem value="ltoh">{t("itemSelect2", { ns: ['main', 'home'] })}</MenuItem>
+            <MenuItem value="htol" >{t("itemSelect3", { ns: ['main', 'home'] })}</MenuItem>
           </Select>
 
 

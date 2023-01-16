@@ -51,7 +51,7 @@ export function StoreItemCategory({
   })
 
   const fetchItems = () => {
-    localStorage.setItem("itemCategoryName",itemCategoryName); 
+    localStorage.setItem("itemCategoryName", itemCategoryName);
     if (isLoggedIn) {
       navigate(`/item/${itemCategoryId}`)
     }
@@ -60,7 +60,7 @@ export function StoreItemCategory({
     }
 
   }
-  
+
 
   return (
     <Box className="mainContainer1">
@@ -68,7 +68,7 @@ export function StoreItemCategory({
         <CardMedia
           component="img"
           image={require('C:/Users/bhavanaw/Desktop/PetShopWebsiteLatest/myfetminiprojectstuffonacer/Images/' +
-          itemCategoryImage)}
+            itemCategoryImage)}
           style={Style}
         />
         <CardContent>
@@ -79,8 +79,8 @@ export function StoreItemCategory({
             </Typography>
             <CardActions>
               <Button className='petCategoryShowNow' onClick={() => fetchItems()}>{t("storeItemCategoryButton", { ns: ['main', 'home'] })}
-</Button>
-              {/* <button className='petCategoryShowNow' onClick={() => fetchItems()}>Shop now</button> */}
+              </Button>
+
             </CardActions>
           </Typography>
         </CardContent>

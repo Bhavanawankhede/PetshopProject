@@ -84,6 +84,7 @@ export default function AddItem({}: Props) {
     data.append("itemDescription", itemDescription);
 
     setIsSubmit(true);
+    console.log(data);
 
     axios
       .post("http://localhost:8080/item/addItem", data)
@@ -195,6 +196,15 @@ export default function AddItem({}: Props) {
                     onChange={handleItemDescriptionChange}
                   />
                 </Grid>
+
+                {/* <Grid item xs={12}>
+                  <input
+                    className="form-control"
+                    type="text"
+                    name="itemImage"
+                    onChange={handleItemImageChange}
+                  />
+                </Grid> */}
 
                 <Grid item xs={12}>
                   <input

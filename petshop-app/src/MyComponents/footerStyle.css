@@ -1,8 +1,11 @@
 .footer {
     position: relative;
     margin: 0px;
-    background-color: #b0acac;
+    /* background-color: #b0acac; */
+    background-color: #96b2d4;
+
     padding: 0px;
+   
   }
   
   .footer-content {

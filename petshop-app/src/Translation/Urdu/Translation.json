@@ -30,5 +30,8 @@
   "itemDescription" : "اپنے پیارے پالتو جانوروں کے لیے بہترین معیار کی مصنوعات حاصل کریں۔",
   "itemSort" : "ترتیب دیں",
   "itemFilter" : "فلٹر",
-  "storeCartItemRemove" : "دور"
+  "storeCartItemRemove" : "دور",
+  "itemSelect1" : "نام کے ساتھ",
+  "itemSelect2" : "قیمت کے لحاظ سے- کم سے زیادہ",
+  "itemSelect3" : "قیمت کے لحاظ سے - زیادہ سے کم"
 }

@@ -14,6 +14,7 @@ import LockOpenIcon from "@mui/icons-material/LockOpen";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
+import { useTranslation } from "react-i18next";
 
 const theme = createTheme();
 
@@ -27,6 +28,9 @@ function SignIn() {
 
   const [userEmail, setUserEmail] = useState("");
   const [userPassword, setUserPassword] = useState("");
+  const [tempPassword, setTempPassword] = useState();
+
+  const { t } = useTranslation(['home', 'main']);
 
   const data = {
     userEmail: userEmail,
@@ -41,6 +45,7 @@ function SignIn() {
 
   let token: any = null;
   let loggedin = false;
+
   useEffect(() => {
     console.log(formErrors);
     if (Object.keys(formErrors).length === 0) {
@@ -61,6 +66,9 @@ function SignIn() {
     } else if (values.userPassword.length > 15) {
       errors.userPassword = "Password cannot exceed more than 20 characters";
     }
+    // else if (values.userPassword.length !== tempPassword) {
+    //   errors.userPassword = " Invalid Password ";
+    // }
 
     return errors;
   };
@@ -82,67 +90,52 @@ function SignIn() {
     console.log(data);
     setFormErrors(validate(formValues));
     console.log(formErrors);
+    if (Object.keys(formErrors).length === 0) {
 
-    // axios
-    //   .post("http://localhost:8080/user/userLogin", formValues)
-    //   .then((res: { data: any }) => {
-    //     let role = res.data.userRole;
-    //     console.log(res.data.userRole);
+      axios
+        .post("http://localhost:8080/user/authenticate", formValues, config)
+        .then((res: { data: any }) => {
+          console.log(res.data);
+          let role = res.data.userRole;
+          setTempPassword(res.data.userPassword);
+          localStorage.setItem("userEmail", res.data.userEmail);
+          sessionStorage.setItem(`token_${role}`, res.data.token);
+          const token = sessionStorage.getItem("token_ADMIN");
+          if (
+            formValues.userEmail === res.data.userEmail &&
+            formValues.userPassword === res.data.userPassword
+          ) {
 
-    //     localStorage.setItem("userEmail", res.data.userEmail);
-    //     if (
-    //       formValues.userEmail == res.data.userEmail &&
-    //       formValues.userPassword == res.data.userPassword
-    //     ) {
-    //       token = localStorage.getItem("userEmail");
-    //       if (role == "ADMIN") {
-    //         // alert("Welcome Admin")
-    //         window.location.replace("http://localhost:3000/admin");
-    //       }
-    //       if (role == "CUSTOMER") {
-    //         window.location.replace("http://localhost:3000/home");
-    //       }
-    //     } else {
-    //       alert("Wrong Credentials");
-    //     }
-    //   });
+            if (role == "ADMIN") {
+              swal({
+                title: "Admin Login Successful",
+                icon: "success",
+                timer: 2000,
+              });
+              navigate("/admin");
 
-    axios
-      .post("http://localhost:8080/user/authenticate", formValues, config)
-      .then((res: { data: any }) => {
-        console.log(res.data);
-        let role = res.data.userRole;
-        localStorage.setItem("userEmail", res.data.userEmail);
-        sessionStorage.setItem(`token_${role}`, res.data.token);
-        const token = sessionStorage.getItem("token_ADMIN");
-        if (
-          formValues.userEmail == res.data.userEmail &&
-          formValues.userPassword == res.data.userPassword
-        ) {
-          
-          if (role == "ADMIN") {
-            swal({
-              title: "Admin Login Successful",
-              icon: "success",
-              timer: 2000,
-            });
-            navigate("/admin");
-            
-          } else if (role == "CUSTOMER") {
-            swal({
-              title: "User Login Successful",
-              icon: "success",
-              timer: 2000,
-            });
+            } else if (role == "CUSTOMER") {
+              swal({
+                title: "User Login Successful",
+                icon: "success",
+                timer: 2000,
+              });
 
-            navigate("/home");
-          } else {
+              navigate("/home");
+            } 
+          }
+          else {
 
             console.log("Wrong Credentials");
-            alert("Wrong Credentials");
+            swal({
+              title: "Wrong Crendetials",
+              icon: "success",
+              timer: 2000,
+            });
+           
           }
-        }
-      });
+        });
+    }
   };
 
   return (
@@ -204,7 +197,7 @@ function SignIn() {
               <Grid container>
                 <Grid item xs>
                   <Link
-                    href="#"
+                    href="/forget"
                     variant="body2"
                     sx={{ my: 2, color: "blue", display: "block" }}
                   >
