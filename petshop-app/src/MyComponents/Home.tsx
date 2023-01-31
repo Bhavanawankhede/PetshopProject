@@ -1,12 +1,12 @@
 import * as React from "react";
 import { Container } from "react-bootstrap";
+import axios from "axios";
 import { Box, Paper, Typography } from "@mui/material";
 import { experimentalStyled as styled } from "@mui/material/styles";
 import Card from "@mui/material/Card";
 import CardMedia from "@mui/material/CardMedia";
 import SimpleImageSlider from "react-simple-image-slider";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import { StoreItemCategory } from "./StoreItemCategory";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";

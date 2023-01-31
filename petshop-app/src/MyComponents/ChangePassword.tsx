@@ -1,9 +1,10 @@
+import axios from 'axios';
 import { Box, CssBaseline, Avatar, Typography, TextField, Grid, Container, Button, createTheme } from '@mui/material'
 import React, { useEffect, useState } from 'react'
 import { ThemeProvider,   } from 'react-bootstrap'
 import { Link, useNavigate } from 'react-router-dom'
 import LockResetIcon from '@mui/icons-material/LockReset';
-import axios from 'axios';
+
 
 const theme = createTheme();
 
@@ -30,7 +31,11 @@ export default function ChangePassword() {
     password : "",
     confirmPassword : ""
   })
+
+  const otpValue= sessionStorage.getItem("otpToken");
   useEffect(() => {
+    if(otpValue == null)
+    navigate('/forget')
     console.log(formErrors);
     if (Object.keys(formErrors).length === 0) {
       console.log(formErrors);
@@ -105,6 +110,7 @@ export default function ChangePassword() {
       
       });
     }
+    sessionStorage.removeItem("otpToken");
     }
 
 

@@ -1,9 +1,9 @@
+import axios from "axios";
 import { Offcanvas, Stack } from "react-bootstrap";
 import { useShoppingCart } from "../context/ShoppingCartContext";
 import { formatCurrency } from "../utilities/formatCurrency";
 import { CartItem } from "./CartItem";
 import { useEffect, useState } from "react";
-import axios from "axios";
 import Card from "@mui/material/Card";
 import { useNavigate } from "react-router-dom";
 import CardActions from "@mui/material/CardActions";

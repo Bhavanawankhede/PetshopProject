@@ -19,6 +19,7 @@ function App() {
 
   return (
     <div>
+      <span> learn react </span>
       <Navbar></Navbar>
       {/* <Order1></Order1> */}
       <MainRoutes></MainRoutes>
@@ -31,3 +32,5 @@ function App() {
 }
 
 export default App;
+
+// https://krishankantsinghal.medium.com/testing-login-react-component-using-jest-and-enzyme-888daaab72ba

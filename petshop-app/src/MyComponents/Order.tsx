@@ -1,4 +1,5 @@
 import * as React from "react";
+import axios from "axios";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -18,7 +19,6 @@ import { Card, Offcanvas, Stack } from "react-bootstrap";
 import { useShoppingCart } from "../context/ShoppingCartContext";
 import { formatCurrency } from "../utilities/formatCurrency";
 import { CartItem } from "./CartItem";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 

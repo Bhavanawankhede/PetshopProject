@@ -1,3 +1,4 @@
+import axios from "axios";
 import { useShoppingCart } from "../context/ShoppingCartContext";
 import { formatCurrency } from "../utilities/formatCurrency";
 import AddShoppingCartSharpIcon from "@mui/icons-material/AddShoppingCartSharp";
@@ -16,7 +17,6 @@ import {
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
-import axios from "axios";
 import swal from "sweetalert";
 
 type StoreItemProps = {

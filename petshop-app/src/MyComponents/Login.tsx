@@ -1,4 +1,5 @@
 import * as React from "react";
+import axios from "axios";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
@@ -11,7 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import { Avatar } from "@mui/material";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
-import axios from "axios";
+
 import { useNavigate } from "react-router-dom";
 import swal from "sweetalert";
 import { useTranslation } from "react-i18next";
@@ -168,6 +169,7 @@ function SignIn() {
                 fullWidth
                 id="userEmail"
                 label="Email Address"
+                type="text"
                 name="userEmail"
                 value={formValues.userEmail}
                 onChange={handleChange}
